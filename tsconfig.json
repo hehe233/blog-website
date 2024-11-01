@@ -1,0 +1,58 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM", "ES2020", "dom.iterable"],
+    "jsx": "preserve",
+    "target": "ES2020",
+    "noEmit": true,
+    "jsxImportSource": "vue",
+    "useDefineForClassFields": true,
+
+    /* modules */
+    "module": "ESNext",
+    "isolatedModules": true,
+    "resolveJsonModule": true,
+    "moduleResolution": "Bundler",
+    "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+
+    /* type checking */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitThis": true,
+    "strictPropertyInitialization": false,
+
+    "skipLibCheck": true,
+    "inlineSourceMap":true,
+    "stripInternal": true,
+    "pretty": true,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "dist",
+    "baseUrl": ".",
+    "paths": {
+      "@@/*": [
+        "server/*"
+      ],
+      "@/*": ["./src/*"],
+      "@images": ["./src/assets/images/*"]
+    }
+  },
+  "exclude": [
+    "dist",
+    "node_modules",
+    "test",
+    "public"
+  ],
+  "vueCompilerOptions": {
+    "target": 3.5,
+
+    "extensions": [
+      ".vue"
+    ]
+  }
+}

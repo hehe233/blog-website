@@ -1,33 +1,22 @@
-import { createWebHistory, createRouter } from 'vue-router';
-import Layout from '@/layout/index.vue';
+import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
+import blogrouter from './modules/blog'
 
-export const constantRoutes = [
-  {
-    path: '/redirect',
-    component: Layout,
-    hidden: true,
-    children: [
-      {
-        path: '/redirect/:path*',
-        component: () => import('@/views/redirect/index.vue')
-      }
-    ]
-  },
+export const routes: RouteRecordRaw[] = [
   {
     path: '/',
-    hidden: true,
-    redirect: '/home'
+    redirect: '/home',
+    meta: { hidden: true }
   },
   {
     path: '/404',
-    hidden: true,
     component: () => import('@/views/error/404.vue'),
     name: '404',
-    meta: { title: '无法找到页面' }
-  }
+    meta: { title: '无法找到页面', hidden: true }
+  },
+  ...blogrouter,
 ];
 
 export const router = createRouter({
   history: createWebHistory(),
-  routes: constantRoutes
+  routes: routes
 });

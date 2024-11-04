@@ -9,57 +9,60 @@
         ></i>
         <router-link to="/" class="kur_header__above-logo">
           <img
-            src="../../assets/images/logo.png"
+            src=""
             alt="LOGO"
             loading="lazy"
             style="border-radius: 0px"
           />
         </router-link>
         <nav class="kur_header__above-nav" v-cloak>
-          <template v-for="menu in menuTree" :key="menu.id">
+          <template v-for="menu in menuTree" :key="menu.name">
             <router-link
-              :to="menu.url"
+              :to="menu.path"
               class="item"
               :class="{
-                current: activedMenu === menu.url,
+                current: activedMenu === menu.path,
               }"
-              v-if="!menu.children"
+              v-if="!menu.children?.length"
             >
-              <i class="iconfont" :class="menu.icon"></i>{{ menu.title }}
+              <i class="iconfont" :class="menu.meta?.icon"></i>{{ menu.meta?.title }}
             </router-link>
             <div
               class="kur_dropdown"
+              :class="{
+                actived: state.activedDropFrameMenu === menu.name?.toString()
+              }"
               trigger="hover"
               placement="3.75rem"
-              @mouseenter="showDropFrame"
+              @mouseenter="showDropFrame(menu.name?.toString())"
               @mouseleave="hideDropFrame"
-              v-if="menu.children"
+              v-if="menu.children?.length"
             >
               <div class="kur_dropdown__link" v-cloak>
                 <router-link
-                  :to="menu.url"
+                  :to="menu.path"
                   class="item"
                   :class="{
                     current:
-                      activedMenu === menu.url ||
-                      menu.children.some((sub) => sub.url === activedMenu),
+                      activedMenu === menu.path ||
+                      menu.children.findIndex(sub => `${menu.path}/${sub.path}` === activedMenu) > -1,
                   }"
                 >
-                  <i class="iconfont" :class="menu.icon"></i>{{ menu.title }}
+                  <i class="iconfont" :class="menu.meta?.icon"></i>{{ menu.meta?.title }}
                 </router-link>
                 <div class="rotateDiv"></div>
               </div>
               <ul class="kur_dropdown__menu" style="top: 3.75rem" v-cloak>
-                <li v-for="childMenu in menu.children" :key="childMenu.id">
+                <li v-for="childMenu in menu.children" :key="childMenu.name">
                   <router-link
-                    :to="childMenu.url"
+                    :to="childMenu.path"
                     class="item"
                     :class="{
-                      current: activedMenu === childMenu.url,
+                      current: `${menu.path}/${childMenu.path}` === activedMenu,
                     }"
                   >
-                    <i class="iconfont" :class="childMenu.icon"></i
-                    >{{ childMenu.title }}
+                    <i class="iconfont" :class="childMenu.meta?.icon"></i
+                    >{{ childMenu.meta?.title }}
                   </router-link>
                 </li>
               </ul>
@@ -82,9 +85,16 @@
             <i class="iconfont icon-sousuo submit-search"></i>
           </button>
           <span class="icon"></span>
-          <nav class="result" ref="navResult" v-cloak>
+          <nav
+            class="result"
+            :class="{
+              actived: state.isResultFrameVisable
+            }"
+            ref="navResult"
+            v-cloak
+          >
             <a
-              v-for="(article, index) in stickyArticleList"
+              v-for="(article, index) in state.stickyArticleList"
               :key="article.id"
               :href="'/archives/' + article.attributes.drupal_internal__nid"
               :title="article.title"
@@ -101,13 +111,18 @@
         ></i>
       </div>
     </div>
-    <div class="kur_header__slideout">
+    <div 
+      class="kur_header__slideout"
+      :class="{
+        actived: state.isSildeOutVisable
+      }"
+    >
       <div class="kur_header__slideout-wrap">
         <img
           width="100%"
           height="150"
           class="kur_header__slideout-image"
-          :src="bgSrc"
+          src=""
           alt="aside background"
           loading="lazy"
         />
@@ -116,17 +131,17 @@
             width="50"
             height="50"
             class="avatar"
-            :src="avatarSrc"
+            src=""
             alt="avatar"
             loading="lazy"
           />
           <div class="info">
-            <a class="link" href="#" target="_blank" v-cloak>{{ NAME }}</a>
-            <p class="motto" v-cloak>{{ MOTTO }}</p>
+            <a class="link" href="#" target="_blank" v-cloak>{{ info.name }}</a>
+            <p class="motto" v-cloak>{{ info.motto }}</p>
           </div>
         </div>
         <div class="social-account">
-          <a class="github" :href="GITHUB" target="_blank" title="Github">
+          <a class="github" :href="info.github" target="_blank" title="Github">
             <svg
               viewBox="0 0 1024 1024"
               version="1.1"
@@ -140,7 +155,7 @@
               ></path>
             </svg>
           </a>
-          <a class="bilibili" :href="BILIBILI" target="_blank" title="B站">
+          <a class="bilibili" :href="info.bilibili" target="_blank" title="B站">
             <svg
               viewBox="0 0 1024 1024"
               version="1.1"
@@ -156,7 +171,7 @@
           </a>
           <a
             class="email"
-            :href="`mailto:${MAILTO}`"
+            :href="`mailto:${info.matlto}`"
             target="_blank"
             title="邮箱"
           >
@@ -178,90 +193,84 @@
           <li class="item">
             <i class="kur-font kur-icon-riji"></i>
             <span
-              >累计撰写 <strong>{{ articlesNums }}</strong> 篇文章</span
+              >累计撰写 <strong>{{ state.articlesNums }}</strong> 篇文章</span
             >
           </li>
           <li class="item">
             <i class="kur-font kur-icon-remen"></i>
             <span
-              >累计创建 <strong>{{ tagsCNums }}</strong> 个标签</span
+              >累计创建 <strong>{{ state.tagsCNums }}</strong> 个标签</span
             >
           </li>
           <li class="item">
             <i class="kur-font kur-icon-message"></i>
             <span
-              >累计收到 <strong>{{ commentsNums }}</strong> 条评论</span
+              >累计收到 <strong>{{ state.commentsNums }}</strong> 条评论</span
             >
           </li>
         </ul>
         <nav class="kur_header__slideout-menu">
-          <a class="link panel" href="#" @click="expandCon">
+          <a class="link panel" href="#" @click="onClickExpandPEMenu">
             <span>栏目</span>
             <div class="rotateDiv"></div>
           </a>
-          <ul
-            class="slides panel-body"
-            style="height: 0px"
-            @click="clickMenuPanel"
-          >
-            <template v-for="menu in menuTree" :key="menu.id">
-              <li
-                v-if="!menu.children"
-                style="height: 40px"
-                class="contentChild"
-              >
-                <router-link
-                  class="link"
-                  :class="{
-                    current: activedMenu === menu.url,
-                  }"
-                  :to="menu.url"
-                  :title="menu.title"
-                  >{{ menu.title }}</router-link
-                >
-              </li>
-              <li v-if="menu.children" class="hasChild">
-                <div
-                  class="link hasChild-body contentChild"
-                  :class="{
-                    current: activedMenu === menu.url,
-                    in: menu.children.some((sub) => sub.url === activedMenu),
-                  }"
+          <Collapse :when="state.isExpandedPEMenu">
+            <ul class="slides panel-body">
+              <template v-for="menu in menuTree" :key="menu.name">
+                <li
+                  v-if="!menu.children?.length"
                   style="height: 40px"
+                  class="contentChild"
                 >
-                  <router-link :to="menu.url" :title="menu.title">
-                    {{ menu.title }}</router-link
-                  >
-                  <div class="rotateDiv"></div>
-                </div>
-                <ul
-                  class="slides subdirectory contentChild"
-                  style="height: 0px"
-                  :style="{
-                    height: menu.children.some((sub) => sub.url === activedMenu)
-                      ? menu.children.reduce((a, b) => a + b) + 'px'
-                      : '0px',
-                  }"
-                >
-                  <li
-                    v-for="childMenu in menu.children"
-                    :key="childMenu.id"
+                  <router-link
+                    class="link"
+                    :class="{
+                      current: activedMenu === menu.path,
+                    }"
+                    :to="menu.path"
+                    :title="menu.meta?.title"
+                    >{{ menu.meta?.title }}</router-link>
+                </li>
+                <li v-else class="hasChild">
+                  <div
+                    class="link hasChild-body contentChild"
+                    :class="{
+                      current: activedMenu === menu.path,
+                      in: menu.children.findIndex(sub => `${menu.path}/${sub.path}` === activedMenu) > -1,
+                    }"
                     style="height: 40px"
                   >
-                    <router-link
-                      class="link"
-                      :class="{
-                        current: activedMenu === childMenu.url,
-                      }"
-                      :to="childMenu.url"
-                      :title="childMenu.title"
-                      >{{ childMenu.title }}</router-link
+                    <router-link :to="menu.path" :title="menu.meta?.title">
+                      {{ menu.meta?.title }}</router-link
                     >
-                  </li>
-                </ul>
-              </li>
-            </template>
-          </ul>
+                    <div class="rotateDiv" @click="onClickExpandPESubMenu(menu.name?.toString())"></div>
+                  </div>
+                  <Collapse :when="state.activedCollapseSubMenu === menu.name?.toString()">
+                    <ul
+                      class="slides subdirectory contentChild"
+                      style="height: 40px"
+                    >
+                      <li
+                        v-for="childMenu in menu.children"
+                        :key="childMenu.name"
+                        style="height: 40px"
+                      >
+                        <router-link
+                          class="link"
+                          :class="{
+                            current: `${menu.path}/${childMenu.path}` === activedMenu,
+                          }"
+                          :to="childMenu.path"
+                          :title="childMenu.meta?.title"
+                          >{{ childMenu.meta?.title }}</router-link
+                        >
+                      </li>
+                    </ul>
+                  </Collapse>
+                </li>
+              </template>
+            </ul>
+          </Collapse>
         </nav>
       </div>
     </div>
@@ -288,7 +297,7 @@
             <i class="iconfont kur-font icon-yingyong"></i>标签搜索
           </div>
           <ul class="tags">
-            <li class="item" v-for="tag in tags" :key="tag.id" v-cloak>
+            <li class="item" v-for="tag in state.tags" :key="tag.id" v-cloak>
               <a
                 :style="{ background: tag.attributes.field_color }"
                 :href="tag.attributes.path.alias"
@@ -305,7 +314,74 @@
 </template>
 
 <script lang="ts" setup>
+import { routes } from '@/plugins/router';
+import { computed, reactive } from 'vue';
+import { useRoute } from 'vue-router';
+import { Collapse } from 'vue-collapsed'
 
+const route = useRoute();
+
+const info = {
+  name: '',
+  motto: '',
+  github: '',
+  bilibili: '',
+  matlto: '',
+}
+
+const state = reactive({
+  stickyArticleList: [] as any[],
+  tags: [] as any[],
+  articlesNums: 0,
+  tagsCNums: 0,
+  commentsNums: 0,
+
+  activedDropFrameMenu: undefined  as undefined | string,
+  activedCollapseSubMenu: undefined as undefined | string,
+  isSildeOutVisable: false,
+  isResultFrameVisable: false,
+  isExpandedPEMenu: false,
+});
+
+const activedMenu = computed(() => {
+  return route.path;
+})
+
+const menuTree = computed(() => {
+  return routes.filter(route => route.meta?.hidden);
+});
+
+const clickPESearchBtn = () => {
+  // TODO: 跳转到搜索结果页
+}
+
+const clickPEMenuIcon = () => {
+  state.isSildeOutVisable = true;
+}
+
+const onClickExpandPEMenu = () => {
+  state.isExpandedPEMenu = !state.isExpandedPEMenu;
+}
+
+const showResultFrame = () => {
+  state.isResultFrameVisable = true;
+}
+
+const hideResultFrame = () => {
+  state.isResultFrameVisable = false;
+}
+
+const showDropFrame = (name: string | undefined) => {
+  state.activedDropFrameMenu = name;
+}
+
+const onClickExpandPESubMenu = (name: string | undefined) => {
+  state.activedCollapseSubMenu = name;
+}
+
+const hideDropFrame = () => {
+  state.activedDropFrameMenu = undefined;
+}
 </script>
 
 <style lang="scss" scoped>

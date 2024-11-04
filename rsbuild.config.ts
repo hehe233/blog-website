@@ -13,7 +13,7 @@ export default defineConfig({
     pluginVue(),
     pluginSass({
       sassLoaderOptions: {
-        additionalData: `@import "@/assets/scss/variable.scss";`,
+        // additionalData: `@import "@/assets/scss/variable.scss";`,
         // sourceMap: true,
       },
     }),

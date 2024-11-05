@@ -4,7 +4,7 @@ import blogRouter from './modules/blog';
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
 
-export const routes: RouteRecordRaw[] = [
+const routes: RouteRecordRaw[] = [
   {
     path: '/redirect',
     component: Layout,

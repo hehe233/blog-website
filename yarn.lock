@@ -66,26 +66,26 @@
 
 "@fortawesome/fontawesome-common-types@6.6.0":
   version "6.6.0"
-  resolved "http://npmregistry.getapk.cn/@fortawesome%2ffontawesome-common-types/-/fontawesome-common-types-6.6.0.tgz#31ab07ca6a06358c5de4d295d4711b675006163f"
+  resolved "http://npmregistry.getapk.cn/@fortawesome%2ffontawesome-common-types/-/fontawesome-common-types-6.6.0.tgz"
   integrity sha512-xyX0X9mc0kyz9plIyryrRbl7ngsA9jz77mCZJsUkLl+ZKs0KWObgaEBoSgQiYWAsSmjz/yjl0F++Got0Mdp4Rw==
 
 "@fortawesome/fontawesome-svg-core@^6.6.0":
   version "6.6.0"
-  resolved "http://npmregistry.getapk.cn/@fortawesome%2ffontawesome-svg-core/-/fontawesome-svg-core-6.6.0.tgz#2a24c32ef92136e98eae2ff334a27145188295ff"
+  resolved "http://npmregistry.getapk.cn/@fortawesome%2ffontawesome-svg-core/-/fontawesome-svg-core-6.6.0.tgz"
   integrity sha512-KHwPkCk6oRT4HADE7smhfsKudt9N/9lm6EJ5BVg0tD1yPA5hht837fB87F8pn15D8JfTqQOjhKTktwmLMiD7Kg==
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.6.0"
 
 "@fortawesome/free-solid-svg-icons@^6.6.0":
   version "6.6.0"
-  resolved "http://npmregistry.getapk.cn/@fortawesome%2ffree-solid-svg-icons/-/free-solid-svg-icons-6.6.0.tgz#061751ca43be4c4d814f0adbda8f006164ec9f3b"
+  resolved "http://npmregistry.getapk.cn/@fortawesome%2ffree-solid-svg-icons/-/free-solid-svg-icons-6.6.0.tgz"
   integrity sha512-IYv/2skhEDFc2WGUcqvFJkeK39Q+HyPf5GHUrT/l2pKbtgEIv1al1TKd6qStR5OIwQdN1GZP54ci3y4mroJWjA==
   dependencies:
     "@fortawesome/fontawesome-common-types" "6.6.0"
 
 "@fortawesome/vue-fontawesome@^3.0.8":
   version "3.0.8"
-  resolved "http://npmregistry.getapk.cn/@fortawesome%2fvue-fontawesome/-/vue-fontawesome-3.0.8.tgz#1e8032df151173d8174ac9f5a28da3c0f5a495e4"
+  resolved "http://npmregistry.getapk.cn/@fortawesome%2fvue-fontawesome/-/vue-fontawesome-3.0.8.tgz"
   integrity sha512-yyHHAj4G8pQIDfaIsMvQpwKMboIZtcHTUvPqXjOHyldh1O1vZfH4W03VDPv5RvI9P6DLTzJQlmVgj9wCf7c2Fw==
 
 "@jridgewell/gen-mapping@^0.3.5":
@@ -529,6 +529,14 @@
   dependencies:
     "@types/node" "*"
 
+"@types/next-nprogress@^1.4.4":
+  version "1.4.4"
+  resolved "http://npmregistry.getapk.cn/@types%2fnext-nprogress/-/next-nprogress-1.4.4.tgz"
+  integrity sha512-j5SKkKEWVjZqIEJ11AR7H0lrkOAQHpSxrbLK7K2kuGmDuEzh8AqnKdRtic+mHZInxZjKG0gX9Y/WLRUPBYYwhw==
+  dependencies:
+    "@types/nprogress" "*"
+    "@types/react" "*"
+
 "@types/node@*", "@types/node@>=10.0.0":
   version "22.8.6"
   resolved "http://npmregistry.getapk.cn/@types%2fnode/-/node-22.8.6.tgz"
@@ -536,10 +544,23 @@
   dependencies:
     undici-types "~6.19.8"
 
-"@types/nprogress@^0.2.3":
+"@types/nprogress@*":
   version "0.2.3"
   resolved "http://npmregistry.getapk.cn/@types%2fnprogress/-/nprogress-0.2.3.tgz"
   integrity sha512-k7kRA033QNtC+gLc4VPlfnue58CM1iQLgn1IMAU8VPHGOj7oIHPp9UlhedEnD/Gl8evoCjwkZjlBORtZ3JByUA==
+
+"@types/prop-types@*":
+  version "15.7.13"
+  resolved "http://npmregistry.getapk.cn/@types%2fprop-types/-/prop-types-15.7.13.tgz"
+  integrity sha512-hCZTSvwbzWGvhqxp/RqVqwU999pBf2vp7hzIjiYOsl8wqOmUxkQ6ddw1cV3l8811+kdUFus/q4d1Y3E3SyEifA==
+
+"@types/react@*":
+  version "18.3.12"
+  resolved "http://npmregistry.getapk.cn/@types%2freact/-/react-18.3.12.tgz"
+  integrity sha512-D2wOSq/d6Agt28q7rSI3jhU7G6aiuzljDGZ2hTZHIkrTLUI+AF3WMeKkEZ9nN2fkBAlcktT6vcZjDFiIhMYEQw==
+  dependencies:
+    "@types/prop-types" "*"
+    csstype "^3.0.2"
 
 "@types/tapable@2.2.7":
   version "2.2.7"
@@ -1107,7 +1128,7 @@ cosmiconfig@^8.2.0:
     parse-json "^5.2.0"
     path-type "^4.0.0"
 
-csstype@^3.1.3:
+csstype@^3.0.2, csstype@^3.1.3:
   version "3.1.3"
   resolved "http://npmregistry.getapk.cn/csstype/-/csstype-3.1.3.tgz"
   integrity sha512-M1uQkMl8rQK/szD0LNhtqxIPLpimGm8sOBwU7lLnCpSbTyY3yeU1Vc7l4KT5zT4s/yOxHH5O7tIuuLOCnLADRw==

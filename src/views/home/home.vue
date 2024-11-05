@@ -1,6 +1,6 @@
-<template lang="">
+<template>
   <div>
-    
+    hello home
   </div>
 </template>
 <script>

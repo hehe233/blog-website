@@ -1,0 +1,105 @@
+// global transition style
+/* topInDown */
+@-webkit-keyframes topInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, px2rem(-60px), 0);
+    transform: translate3d(0, px2rem(-60px), 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+@keyframes topInDown {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, px2rem(-60px), 0);
+    transform: translate3d(0, px2rem(-60px), 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+.topInDown {
+  -webkit-animation: topInDown 0.8s;
+  animation: topInDown 0.8s;
+}
+
+@-webkit-keyframes showInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, px2rem(100px), 0);
+    transform: translate3d(0, px2rem(100px), 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes showInUp {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, px2rem(100px), 0);
+    transform: translate3d(0, px2rem(100px), 0);
+  }
+
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.showInUp {
+  -webkit-animation: showInUp 0.35s;
+  animation: showInUp 0.35s;
+}
+
+@-webkit-keyframes fadeInUp {
+  0% {
+      opacity: 0;
+      -webkit-transform: translate3d(0,100%,0);
+      transform: translate3d(0,100%,0)
+  }
+
+  to {
+      opacity: 1;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0)
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+      opacity: 0;
+      -webkit-transform: translate3d(0,100%,0);
+      transform: translate3d(0,100%,0)
+  }
+
+  to {
+      opacity: 1;
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0)
+  }
+}
+
+.fadeInUp {
+  -webkit-animation-name: fadeInUp;
+  animation-name: fadeInUp
+}
+
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}

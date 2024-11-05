@@ -13,8 +13,8 @@ export default defineConfig({
     pluginVue(),
     pluginSass({
       sassLoaderOptions: {
-        // additionalData: `@import "@/assets/scss/variable.scss";`,
-        // sourceMap: true,
+        additionalData: `@use "@/assets/scss/mixin.scss" as *;`,
+        sourceMap: true,
       },
     }),
     pluginHtmlMinifierTerser({

@@ -3,10 +3,10 @@
     <div class="kur_header__above topInDown" ref="menuAbove">
       <div class="kur_container kur_header__above-container">
         <i
-          class="iconfont icon-mune-02-01 kur_header__above-slideicon"
+          class="iconfont kur_header__above-slideicon"
           id="menuPeBtn"
           @click="clickPEMenuIcon"
-        ></i>
+        ><font-awesome-icon :icon="['fa', 'bars']" /></i>
         <router-link to="/" class="kur_header__above-logo">
           <img
             src=""
@@ -33,7 +33,7 @@
                 actived: state.activedDropFrameMenu === menu.name?.toString()
               }"
               trigger="hover"
-              placement="3.75rem"
+              placement="60px"
               @mouseenter="showDropFrame(menu.name?.toString())"
               @mouseleave="hideDropFrame"
               v-if="menu.children?.length"
@@ -45,14 +45,14 @@
                   :class="{
                     current:
                       activedMenu === menu.path ||
-                      menu.children.findIndex(sub => `${menu.path}/${sub.path}` === activedMenu) > -1,
+                      menu.children.findIndex((sub: RouteRecordRaw) => `${menu.path}/${sub.path}` === activedMenu) > -1,
                   }"
                 >
                   <i class="iconfont" :class="menu.meta?.icon"></i>{{ menu.meta?.title }}
                 </router-link>
                 <div class="rotateDiv"></div>
               </div>
-              <ul class="kur_dropdown__menu" style="top: 3.75rem" v-cloak>
+              <ul class="kur_dropdown__menu" style="top: 60px" v-cloak>
                 <li v-for="childMenu in menu.children" :key="childMenu.name">
                   <router-link
                     :to="childMenu.path"
@@ -236,7 +236,7 @@
                     class="link hasChild-body contentChild"
                     :class="{
                       current: activedMenu === menu.path,
-                      in: menu.children.findIndex(sub => `${menu.path}/${sub.path}` === activedMenu) > -1,
+                      in: menu.children.findIndex((sub: RouteRecordRaw) => `${menu.path}/${sub.path}` === activedMenu) > -1,
                     }"
                     style="height: 40px"
                   >
@@ -314,10 +314,10 @@
 </template>
 
 <script lang="ts" setup>
-import { routes } from '@/plugins/router';
 import { computed, reactive } from 'vue';
-import { useRoute } from 'vue-router';
-import { Collapse } from 'vue-collapsed'
+import { RouteRecordRaw, useRoute } from 'vue-router';
+import { Collapse } from 'vue-collapsed';
+import { blogRouter } from '@/plugins/router/index.ts'
 
 const route = useRoute();
 
@@ -348,7 +348,7 @@ const activedMenu = computed(() => {
 })
 
 const menuTree = computed(() => {
-  return routes.filter(route => route.meta?.hidden);
+  return blogRouter.children?.filter(route => !route.meta?.hidden);
 });
 
 const clickPESearchBtn = () => {
@@ -385,40 +385,11 @@ const hideDropFrame = () => {
 </script>
 
 <style lang="scss" scoped>
-@mixin display-flex {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-
-@mixin display-flex-center {
-  @include display-flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-@mixin truncate {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
 .kur_header {
   position: relative;
   z-index: 100;
   width: 100%;
-  height: 3.75rem;
-
-  @media (max-width: 768px) {
-    top: 0;
-    height: 3.4375rem;
-    -webkit-animation-fill-mode: backwards;
-    animation-fill-mode: backwards;
-  }
-
-  @media (max-width: 500px) {
-    height: 3.125rem;
-  }
+  height: px2rem(60px);
 
   &__above {
     position: fixed;
@@ -426,8 +397,8 @@ const hideDropFrame = () => {
     z-index: 6;
     width: 100%;
     background: var(--background);
-    -webkit-box-shadow: 0 2px 0.625rem 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 0 2px 0.625rem 0 rgba(0, 0, 0, 0.2);
+    -webkit-box-shadow: 0 2px px2rem(10px) 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px px2rem(10px) 0 rgba(0, 0, 0, 0.2);
     -webkit-transform: translate3d(0, 0, 0);
     transform: translate3d(0, 0, 0);
     will-change: opacity, transform;
@@ -444,8 +415,8 @@ const hideDropFrame = () => {
     }
 
     &.actived {
-      -webkit-transform: translate3d(0, -3.75rem, 0);
-      transform: translate3d(0, -3.75rem, 0);
+      -webkit-transform: translate3d(0, px2rem(-60px), 0);
+      transform: translate3d(0, px2rem(-60px), 0);
     }
 
     &-container {
@@ -453,11 +424,11 @@ const hideDropFrame = () => {
       -ms-flex-align: center;
       align-items: center;
       width: 100%;
-      min-height: 2.75rem;
+      min-height: px2rem(44px);
       margin: 0 auto;
 
       @media (max-width: 768px) {
-        height: 3.4375rem;
+        height: px2rem(55px);
         -webkit-box-pack: justify;
         -ms-flex-pack: justify;
         justify-content: space-between;
@@ -465,7 +436,7 @@ const hideDropFrame = () => {
 
       @media (max-width: 500px) {
         margin: 0 auto;
-        height: 3.125rem;
+        height: px2rem(50px);
         -webkit-box-pack: justify;
         -ms-flex-pack: justify;
         justify-content: space-between;
@@ -475,7 +446,7 @@ const hideDropFrame = () => {
     &-slideicon {
       display: none;
       cursor: pointer;
-      font-size: 1.25rem;
+      font-size: px2rem(20px);
       color: var(--routine);
 
       @media (max-width: 768px) {
@@ -484,24 +455,24 @@ const hideDropFrame = () => {
     }
 
     &-logo {
-      @include display-flex-center;
       position: relative;
-      height: 3.75rem;
-      margin-right: 0.625rem;
-      padding-right: 1.125rem;
+      height: px2rem(60px);
+      margin-right: px2rem(10px);
+      padding-right: px2rem(18px);
+      @include display-flex-center;
 
       @media (max-width: 1200px) {
-        padding-right: 0.6rem;
+        padding-right: px2rem(9px);
       }
 
       @media (max-width: 768px) {
-        height: 3.4375rem;
+        height: px2rem(55px);
         margin-right: 0;
         padding-right: 0;
       }
 
       @media (max-width: 500px) {
-        height: 3.125rem;
+        height: px2rem(50px);
       }
 
       &::after {
@@ -510,7 +481,7 @@ const hideDropFrame = () => {
         top: 50%;
         right: 0;
         width: 1px;
-        height: 1.25rem;
+        height: px2rem(20px);
         background: var(--classC);
         -webkit-transform: translateY(-50%);
         transform: translateY(-50%);
@@ -521,14 +492,14 @@ const hideDropFrame = () => {
       }
 
       img {
-        min-width: 2.5rem;
-        max-width: 9.375rem;
-        height: 2.5rem;
+        min-width: px2rem(40px);
+        max-width: px2rem(150px);
+        height: px2rem(40px);
         -o-object-fit: cover;
         object-fit: cover;
 
         @media (max-width: 768px) {
-          max-height: 2.8125rem;
+          max-height: px2rem(45px);
         }
       }
     }
@@ -541,7 +512,7 @@ const hideDropFrame = () => {
       }
 
       .kur_dropdown {
-        margin-right: 1rem;
+        margin-right: px2rem(16px);
 
         &.actived {
           .kur_dropdown__link {
@@ -564,12 +535,12 @@ const hideDropFrame = () => {
           @include display-flex-center;
 
           .item {
-            height: 3.75rem;
-            line-height: 3.75rem;
-            font-size: 1rem;
+            height: px2rem(60px);
+            line-height: px2rem(60px);
+            font-size: px2rem(16px);
             font-size: initial;
-            padding-left: 0.5rem;
-            padding-right: 0.1875rem;
+            padding-left: px2rem(8px);
+            padding-right: px2rem(3px);
             -webkit-transition: color 0.35s;
             transition: color 0.35s;
             white-space: nowrap;
@@ -588,34 +559,34 @@ const hideDropFrame = () => {
         }
 
         &__menu {
-          min-width: 5.625rem;
-          max-width: 12.5rem;
+          min-width: px2rem(90px);
+          max-width: px2rem(200px);
           text-align: center;
 
           &::before {
             content: "";
             position: absolute;
-            top: -0.625rem;
+            top: px2rem(-10px);
             left: 50%;
             -webkit-transform: translateX(-50%);
             transform: translateX(-50%);
             width: 0;
             height: 0;
-            border-left: 0.5rem solid transparent;
-            border-right: 0.5rem solid transparent;
-            border-bottom: 0.5rem solid var(--theme);
+            border-left: px2rem(8px) solid transparent;
+            border-right: px2rem(8px) solid transparent;
+            border-bottom: px2rem(8px) solid var(--theme);
           }
 
           .item {
             display: block;
-            height: 2.125rem;
+            height: px2rem(34px);
             margin-right: 0;
-            line-height: 2.125rem;
+            line-height: px2rem(34px);
             color: var(--classF);
-            @include truncate;
-            padding: 0 1rem;
+            padding: 0 px2rem(16px);
             -webkit-transition: color 0.35s, background 0.35s;
             transition: color 0.35s, background 0.35s;
+            @include truncate;
 
             &:hover {
               color: var(--theme);
@@ -642,14 +613,13 @@ const hideDropFrame = () => {
       }
 
       .item {
-        @include display-flex-center;
         cursor: pointer;
         position: relative;
-        height: 3.75rem;
-        line-height: 3.75rem;
-        font-size: 1rem;
-        padding: 0 0.5rem;
-        margin-right: 0.625rem;
+        height: px2rem(60px);
+        line-height: px2rem(60px);
+        font-size: px2rem(16px);
+        padding: 0 px2rem(8px);
+        margin-right: px2rem(10px);
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -658,6 +628,7 @@ const hideDropFrame = () => {
         color: var(--main);
         -webkit-transition: color 0.35s;
         transition: color 0.35s;
+        @include display-flex-center;
         // :last-child {
         //   margin-right: 0;
         // }
@@ -666,14 +637,14 @@ const hideDropFrame = () => {
           opacity: 0;
           position: absolute;
           bottom: 0;
-          left: 0.375rem;
-          right: 0.375rem;
+          left: px2rem(6px);
+          right: px2rem(6px);
           content: "";
-          height: 0.1875rem;
+          height: px2rem(3px);
           -webkit-transform: scaleX(0.25);
           transform: scaleX(0.25);
           background: var(--theme);
-          border-radius: 0.375rem 0.375rem 0 0;
+          border-radius: px2rem(6px) px2rem(6px) 0 0;
           -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
           transition: opacity 0.5s, transform 0.5s;
           transition: opacity 0.5s, transform 0.5s, -webkit-transform 0.5s;
@@ -701,8 +672,8 @@ const hideDropFrame = () => {
 
         i {
           display: none;
-          margin-right: 0.25rem;
-          font-size: 1rem;
+          margin-right: px2rem(4px);
+          font-size: px2rem(16px);
           font-size: initial;
           -webkit-transition: -webkit-transform 0.5s;
           transition: transform 0.5s;
@@ -715,21 +686,20 @@ const hideDropFrame = () => {
       }
 
       .travelling-link {
-        @include display-flex-center;
-        height: 3.75rem;
-        line-height: 3.75rem;
-        font-size: 1rem;
+        height: px2rem(60px);
+        line-height: px2rem(60px);
+        font-size: px2rem(16px);
         font-family: "Lobster";
         position: relative;
         -webkit-transition: -webkit-transform 0.5s;
         transition: transform 0.5s;
         transition: transform 0.5s, -webkit-transform 0.5s;
+        color: var(--main);
+        @include display-flex-center;
 
         @media (max-width: 768px) {
           display: none;
         }
-
-        color: var(--main);
 
         &:hover {
           color: var(--theme);
@@ -749,14 +719,14 @@ const hideDropFrame = () => {
           opacity: 0;
           position: absolute;
           bottom: 0;
-          left: 0.375rem;
-          right: 0.375rem;
+          left: px2rem(6px);
+          right: px2rem(6px);
           content: "";
-          height: 0.1875rem;
+          height: px2rem(3px);
           -webkit-transform: scaleX(0.25);
           transform: scaleX(0.25);
           background: var(--theme);
-          border-radius: 0.375rem 0.375rem 0 0;
+          border-radius: px2rem(6px) px2rem(6px) 0 0;
           -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
           transition: opacity 0.5s, transform 0.5s;
           transition: opacity 0.5s, transform 0.5s, -webkit-transform 0.5s;
@@ -769,8 +739,8 @@ const hideDropFrame = () => {
         i {
           color: var(--main);
           display: inline-block;
-          margin-right: 0.1rem;
-          font-size: 1rem;
+          margin-right: px2rem(2px);
+          font-size: px2rem(16px);
           font-size: initial;
           -webkit-transition: -webkit-transform 0.5s;
           transition: transform 0.5s;
@@ -782,33 +752,32 @@ const hideDropFrame = () => {
     &-search {
       position: relative;
       margin-left: auto;
+      @include display-flex-center;
 
       @media (max-width: 768px) {
         display: none;
       }
 
-      @include display-flex-center;
-
       .input {
         background: var(--classC);
-        width: 4.375rem;
-        height: 2.125rem;
+        width: px2rem(70px);
+        height: px2rem(34px);
         border: 1px solid transparent;
-        padding: 0 0.875rem 0 1rem;
+        padding: 0 px2rem(14px) 0 px2rem(16px);
         color: var(--routine);
         -webkit-transition: width 0.35s, border-color 0.35s, padding-right 0.35s;
         transition: width 0.35s, border-color 0.35s, padding-right 0.35s;
-        border-radius: 1.0625rem 0 0 1.0625rem;
+        border-radius: px2rem(17px) 0 0 px2rem(17px);
 
         @media (min-width: 1024px) {
-          width: 10.625rem;
+          width: px2rem(170px);
         }
 
         &:focus {
           background: var(--background);
           border-color: var(--theme);
-          padding-right: 1.75rem;
-          width: 10.625rem;
+          padding-right: px2rem(28px);
+          width: px2rem(170px);
         }
 
         &:focus ~ .icon {
@@ -820,9 +789,9 @@ const hideDropFrame = () => {
       .icon {
         position: absolute;
         top: 50%;
-        right: 2.75rem;
-        width: 1.75rem;
-        height: 2.375rem;
+        right: px2rem(44px);
+        width: px2rem(28px);
+        height: px2rem(38px);
         background: url(data:image/png;base64,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);
         background-size: 100% 100%;
         -webkit-transition: -webkit-transform 0.35s;
@@ -835,16 +804,16 @@ const hideDropFrame = () => {
       .submit {
         position: relative;
         z-index: 1;
-        width: 3.125rem;
-        height: 2.125rem;
+        width: px2rem(50px);;
+        height: px2rem(34px);
         border: 0;
         background: var(--theme);
-        border-radius: 0 1.0625rem 1.0625rem 0;
+        border-radius: 0 px2rem(17px) px2rem(17px) 0;
 
         &-search {
           -webkit-transform-origin: right bottom;
           transform-origin: right bottom;
-          font-size: 1.25rem;
+          font-size: px2rem(20px);
           color: #fff;
         }
       }
@@ -852,7 +821,7 @@ const hideDropFrame = () => {
       .result {
         position: absolute;
         z-index: 2;
-        top: 3.75rem;
+        top: px2rem(60px);
         left: 0;
         right: 0;
         -webkit-user-select: none;
@@ -862,16 +831,16 @@ const hideDropFrame = () => {
         visibility: hidden;
         opacity: 0;
         background: var(--sib-background);
-        -webkit-box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.15);
-        box-shadow: 0 0 0.625rem rgba(0, 0, 0, 0.15);
+        -webkit-box-shadow: 0 0 px2rem(10px) rgba(0, 0, 0, 0.15);
+        box-shadow: 0 0 px2rem(10px) rgba(0, 0, 0, 0.15);
         border-radius: var(--radius-inner);
         -webkit-transition: visibility 0.35s, opacity 0.35s,
           -webkit-transform 0.35s;
         transition: visibility 0.35s, opacity 0.35s, transform 0.35s;
         transition: visibility 0.35s, opacity 0.35s, transform 0.35s,
           -webkit-transform 0.35s;
-        -webkit-transform: translate3d(0, 1rem, 0);
-        transform: translate3d(0, 1rem, 0);
+        -webkit-transform: translate3d(0, px2rem(16px), 0);
+        transform: translate3d(0, px2rem(16px), 0);
 
         &.actived {
           -webkit-transform: translate3d(0, 0, 0);
@@ -881,14 +850,14 @@ const hideDropFrame = () => {
         }
 
         .item {
-          height: 2.5rem;
-          line-height: 2.5rem;
-          @include display-flex-center;
+          height: px2rem(40px);
+          line-height: px2rem(40px);
           overflow: hidden;
-          padding: 0 0.625rem;
+          padding: 0 px2rem(10px);
           border-bottom: 1px solid var(--classD);
           -webkit-transition: background 0.35s;
           transition: background 0.35s;
+          @include display-flex-center;
 
           &:hover {
             background: var(--classC);
@@ -918,12 +887,12 @@ const hideDropFrame = () => {
           .sort {
             color: #fff;
             background: #7f7f8c;
-            width: 1.125rem;
-            height: 1.125rem;
-            line-height: 1.125rem;
+            width: px2rem(18px);
+            height: px2rem(18px);
+            line-height: px2rem(18px);
             border-radius: 2px;
             text-align: center;
-            margin-right: 0.5rem;
+            margin-right: px2rem(8px);
             font-weight: 500;
           }
 
@@ -932,9 +901,9 @@ const hideDropFrame = () => {
             -ms-flex: 1;
             flex: 1;
             min-width: 0;
-            @include truncate;
             color: var(--routine);
-            font-size: 0.75rem;
+            font-size: px2rem(12px);
+            @include truncate;
           }
         }
       }
@@ -947,31 +916,31 @@ const hideDropFrame = () => {
           -ms-flex: 1;
           flex: 1;
           background: var(--classC);
-          width: 10.625rem;
-          height: 2.125rem;
+          width: px2rem(170px);
+          height: px2rem(34px);
           border: 1px solid transparent;
-          padding: 0 0.875rem 0 1rem;
+          padding: 0 px2rem(14px) 0 px2rem(16px);
           color: var(--routine);
           -webkit-transition: width 0.35s, border-color 0.35s,
             padding-right 0.35s;
           transition: width 0.35s, border-color 0.35s, padding-right 0.35s;
-          border-radius: 1.0625rem 0 0 1.0625rem;
+          border-radius: px2rem(17px) 0 0 px2rem(17px);
           &:focus {
             background: var(--background);
             border-color: var(--theme);
-            padding-right: 28px;
-            width: 170px;
+            padding-right: px2rem(28px);
+            width: px2rem(170px);
           }
         }
         .submit {
           position: relative;
           z-index: 1;
-          width: 3.125rem;
-          height: 2.125rem;
+          width: px2rem(50px);
+          height: px2rem(34px);
           color: #fff;
           border: 0;
           background: var(--theme);
-          border-radius: 0 1.0625rem 1.0625rem 0;
+          border-radius: 0 px2rem(17px) px2rem(17px) 0;
         }
       }
     }
@@ -979,7 +948,7 @@ const hideDropFrame = () => {
     &-searchicon {
       display: none;
       cursor: pointer;
-      font-size: 1.25rem;
+      font-size: px2rem(20px);
       color: var(--routine);
 
       @media (max-width: 768px) {
@@ -1001,7 +970,7 @@ const hideDropFrame = () => {
     left: 0;
     z-index: 10;
     width: 78%;
-    max-width: 30rem;
+    max-width: px2rem(480px);
     background: var(--classD);
     -webkit-transform: translate3d(-100%, 0, 0);
     transform: translate3d(-100%, 0, 0);
@@ -1021,18 +990,18 @@ const hideDropFrame = () => {
       -ms-scroll-chaining: none;
       overscroll-behavior: contain;
       position: relative;
-      padding: 8.4375rem 0.9375rem 0.9375rem;
+      padding: px2rem(135px) px2rem(15px) px2rem(15px);
       height: 100%;
 
       .social-account {
         padding: 0;
-        margin-bottom: 0.625rem;
+        margin-bottom: px2rem(10px);
         border: unset;
-        @include display-flex-center;
         -ms-flex-pack: distribute;
         justify-content: space-around;
         text-align: center;
-        font-size: 0.875rem;
+        font-size: px2rem(14px);
+        @include display-flex-center;
 
         a {
           -webkit-transform: scale(0.9);
@@ -1058,44 +1027,44 @@ const hideDropFrame = () => {
       top: 0;
       left: 0;
       width: 100%;
-      height: 9.375rem;
+      height: px2rem(150px);
       -o-object-fit: cover;
       object-fit: cover;
       z-index: -1;
     }
 
     &-author {
-      @include display-flex-center;
-      margin-bottom: 0.9375rem;
-      padding: 0.9375rem;
+      margin-bottom: px2rem(15px);
+      padding: px2rem(15px);
       background: var(--background);
       border-radius: var(--radius-wrap);
       -webkit-box-shadow: var(--box-shadow);
       box-shadow: var(--box-shadow);
+      @include display-flex-center;
 
       .avatar {
-        width: 3.125rem;
-        height: 3.125rem;
-        margin-right: 0.625rem;
+        width: px2rem(50px);
+        height: px2rem(50px);
+        margin-right: px2rem(10px);
         border-radius: var(--radius-inner);
       }
 
       .info {
         overflow: hidden;
-        line-height: 1.5625rem;
+        line-height: px2rem(25px);
 
         .link {
           display: block;
-          font-size: 0.9375rem;
+          font-size: px2rem(15px);
           font-weight: 500;
           color: var(--main);
-          @include truncate;
           cursor: pointer;
+          @include truncate;
         }
 
         .motto {
-          max-width: 10.625rem;
-          font-size: 0.75rem;
+          max-width: px2rem(170px);
+          font-size: px2rem(12px);
           color: var(--routine);
           @include truncate;
         }
@@ -1103,21 +1072,21 @@ const hideDropFrame = () => {
     }
 
     &-count {
-      margin-bottom: 0.9375rem;
-      padding: 0.625rem 0.9375rem;
+      margin-bottom: px2rem(15px);
+      padding: px2rem(10px) px2rem(15px);
       background: var(--background);
       border-radius: var(--radius-wrap);
       -webkit-box-shadow: var(--box-shadow);
       box-shadow: var(--box-shadow);
 
       .item {
-        @include display-flex-center;
         color: var(--routine);
-        padding: 0.3125rem 0;
+        padding: px2rem(5px) 0;
+        @include display-flex-center;
 
         i {
           color: var(--routine);
-          margin-right: 0.3125rem;
+          margin-right: px2rem(5px);
         }
 
         strong {
@@ -1129,22 +1098,22 @@ const hideDropFrame = () => {
 
     &-menu {
       overflow: hidden;
-      padding: 0.625rem 0.9375rem;
+      padding: px2rem(10px) px2rem(15px);
       background: var(--background);
       border-radius: var(--radius-wrap);
       -webkit-box-shadow: var(--box-shadow);
       box-shadow: var(--box-shadow);
 
       .link {
-        @include display-flex-center;
         -webkit-box-pack: justify;
         -ms-flex-pack: justify;
         justify-content: space-between;
-        padding: 0.625rem 0;
+        padding: px2rem(10px) 0;
         color: var(--main);
         -webkit-transition: color 0.15s;
         transition: color 0.15s;
         cursor: pointer;
+        @include display-flex-center;
 
         &.in {
           .rotateDiv {
@@ -1155,8 +1124,8 @@ const hideDropFrame = () => {
         }
 
         .rotateDiv {
-          width: 0.4rem;
-          height: 0.4rem;
+          width: px2rem(7px);
+          height: px2rem(7px);
           -webkit-transform: translateY(10%) rotate(-45deg);
           transform: translateY(10%) rotate(-45deg);
           border-width: 0;
@@ -1167,8 +1136,8 @@ const hideDropFrame = () => {
           transition-property: all;
           transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
           transition-duration: 500ms;
-          margin-left: 0.45rem;
-          margin-right: 0.45rem;
+          margin-left: px2rem(8px);
+          margin-right: px2rem(8px);
         }
 
         &.in,
@@ -1185,7 +1154,7 @@ const hideDropFrame = () => {
 
       .slides {
         border-left: 1px solid var(--classC);
-        padding-left: 15px;
+        padding-left: px2rem(15px);
         transition: height 500ms cubic-bezier(0.4, 0, 0.2, 1);
         overflow: hidden;
 
@@ -1195,15 +1164,16 @@ const hideDropFrame = () => {
           &.current {
             color: var(--theme);
             font-weight: 500;
-            font-size: 0.9375rem;
+            font-size: px2rem(15px);
           }
         }
       }
     }
   }
+
   &__searchout {
     position: absolute;
-    top: 3.75rem;
+    top: px2rem(60px);
     left: 0;
     right: 0;
     z-index: 5;
@@ -1216,7 +1186,7 @@ const hideDropFrame = () => {
     transition: transform 0.35s, visibility 0.35s, -webkit-transform 0.35s;
     visibility: hidden;
     @media (max-width: 768px) {
-      top: 3.4375rem;
+      top: px2rem(55px);
     }
 
     &.actived {
@@ -1226,20 +1196,20 @@ const hideDropFrame = () => {
     }
 
     .kur_container {
-      margin-bottom: 0.625rem !important;
+      margin-bottom: px2rem(10px) !important;
     }
 
     &-inner {
-      padding: 0.9375rem 0;
+      padding: px2rem(15px) 0;
       width: 100%;
       .title {
-        @include display-flex-center;
         color: var(--routine);
-        padding: 0.875rem 0 10px;
-        font-size: 0.875rem;
+        padding: px2rem(14px) 0 px2rem(10px);
+        font-size: px2rem(14px);
+        @include display-flex-center;
         .kur-font {
-          margin-right: 0.3125rem;
-          font-size: 1.25rem;
+          margin-right: px2rem(5px);
+          font-size: px2rem(20px);
           color: var(--routine);
         }
       }
@@ -1247,27 +1217,28 @@ const hideDropFrame = () => {
         @include display-flex;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-        margin: 0 -0.3125rem -0.3125rem;
-        max-height: 15.625rem;
+        margin: 0 px2rem(-5px) px2rem(-5px);
+        max-height: px2rem(250px);
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         -ms-scroll-chaining: none;
         overscroll-behavior: contain;
         .item {
-          padding: 0.25rem;
+          padding: px2rem(4px);
           a {
             display: block;
-            padding: 0 0.625rem;
-            height: 1.5rem;
-            line-height: 1.5rem;
-            border-radius: 0.125rem;
-            font-size: 0.75rem;
+            padding: 0 px2rem(10px);
+            height: px2rem(24px);
+            line-height: px2rem(24px);
+            border-radius: px2rem(2px);
+            font-size: px2rem(12px);
             color: #fff;
           }
         }
       }
     }
   }
+
   &__mask {
     position: fixed;
     top: 0;
@@ -1276,8 +1247,8 @@ const hideDropFrame = () => {
     bottom: 0;
     z-index: 4;
     background: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter: blur(0.3125rem);
-    backdrop-filter: blur(0.3125rem);
+    -webkit-backdrop-filter: blur(px2rem(5px));
+    backdrop-filter: blur(px2rem(5px));
     opacity: 0;
     visibility: hidden;
     -webkit-transition: visibility 0.35s, opacity 0.35s;
@@ -1289,6 +1260,17 @@ const hideDropFrame = () => {
     &.slideout {
       z-index: 6;
     }
+  }
+
+  @media only screen and (max-width: 500px) {
+    height: px2rem(50px);
+  }
+
+  @media only screen and (max-width: 768px) {
+    top: 0;
+    height: px2rem(55px);
+    -webkit-animation-fill-mode: backwards;
+    animation-fill-mode: backwards;
   }
 }
 </style>

@@ -11,23 +11,23 @@ export default {
       path: 'home',
       component: () => import('@/views/home/home.vue'),
       name: 'home',
-      meta: { title: '首页', icon: '' }
+      meta: { title: '首页', icon: ['fa', 'home-lg-alt'] }
     },
     {
       path: 'archive',
       component: () => import('@/views/home/home.vue'),
       name: 'archive',
-      meta: { title: '归档', icon: '' },
+      meta: { title: '归档', icon: [] },
       children: [
         {
           path: 'technology',
           name: 'technology',
-          meta: { title: '技术' },
+          meta: { title: '技术', icon: [] },
         },
         {
           path: 'project',
           name: 'project',
-          meta: { title: '项目' },
+          meta: { title: '项目', icon: [] },
         },
       ]
     }

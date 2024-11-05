@@ -3,6 +3,9 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import {
   faBars,
+  faSearch,
+  faHomeLgAlt,
+  faCloud,
   // faCog,
   // faCheck,
   // faEnvelope,
@@ -52,6 +55,9 @@ import {
 
 library.add(
   faBars,
+  faSearch,
+  faHomeLgAlt,
+  faCloud,
   // faCog,
   // faCheck,
   // faEnvelope,

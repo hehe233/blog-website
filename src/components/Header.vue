@@ -25,7 +25,9 @@
               }"
               v-if="!menu.children?.length"
             >
-              <i class="iconfont" :class="menu.meta?.icon"></i>{{ menu.meta?.title }}
+              <i class="iconfont">
+                <font-awesome-icon :icon="menu.meta?.icon" />
+              </i>{{ menu.meta?.title }}
             </router-link>
             <div
               class="kur_dropdown"
@@ -48,9 +50,11 @@
                       menu.children.findIndex((sub: RouteRecordRaw) => `${menu.path}/${sub.path}` === activedMenu) > -1,
                   }"
                 >
-                  <i class="iconfont" :class="menu.meta?.icon"></i>{{ menu.meta?.title }}
+                  <i class="iconfont">
+                    <font-awesome-icon :icon="menu.meta?.icon" />
+                  </i>{{ menu.meta?.title }}
                 </router-link>
-                <div class="rotateDiv"></div>
+                <div class="rotateDiv" />
               </div>
               <ul class="kur_dropdown__menu" style="top: 60px" v-cloak>
                 <li v-for="childMenu in menu.children" :key="childMenu.name">
@@ -61,8 +65,9 @@
                       current: `${menu.path}/${childMenu.path}` === activedMenu,
                     }"
                   >
-                    <i class="iconfont" :class="childMenu.meta?.icon"></i
-                    >{{ childMenu.meta?.title }}
+                    <i class="iconfont">
+                      <font-awesome-icon :icon="childMenu.meta?.icon" />
+                    </i>{{ childMenu.meta?.title }}
                   </router-link>
                 </li>
               </ul>
@@ -82,7 +87,9 @@
             @focusout="hideResultFrame"
           />
           <button type="submit" class="submit" aria-label="搜索按钮">
-            <i class="iconfont icon-sousuo submit-search"></i>
+            <i class="iconfont submit-search">
+              <font-awesome-icon :icon="['fa', 'search']"/>
+            </i>
           </button>
           <span class="icon"></span>
           <nav
@@ -106,9 +113,9 @@
           </nav>
         </form>
         <i
-          class="iconfont icon-search-01 kur_header__above-searchicon"
+          class="iconfont kur_header__above-searchicon"
           @click="clickPESearchBtn"
-        ></i>
+        ><font-awesome-icon :icon="['fa', 'search']"/></i>
       </div>
     </div>
     <div 
@@ -210,10 +217,10 @@
           </li>
         </ul>
         <nav class="kur_header__slideout-menu">
-          <a class="link panel" href="#" @click="onClickExpandPEMenu">
+          <p class="link panel" @click="onClickExpandPEMenu">
             <span>栏目</span>
-            <div class="rotateDiv"></div>
-          </a>
+            <i class="rotateDiv" :class="{actived: state.isExpandedPEMenu}" />
+          </p>
           <Collapse :when="state.isExpandedPEMenu">
             <ul class="slides panel-body">
               <template v-for="menu in menuTree" :key="menu.name">
@@ -229,7 +236,8 @@
                     }"
                     :to="menu.path"
                     :title="menu.meta?.title"
-                    >{{ menu.meta?.title }}</router-link>
+                    >{{ menu.meta?.title }}
+                  </router-link>
                 </li>
                 <li v-else class="hasChild">
                   <div
@@ -241,9 +249,13 @@
                     style="height: 40px"
                   >
                     <router-link :to="menu.path" :title="menu.meta?.title">
-                      {{ menu.meta?.title }}</router-link
-                    >
-                    <div class="rotateDiv" @click="onClickExpandPESubMenu(menu.name?.toString())"></div>
+                      {{ menu.meta?.title }}
+                    </router-link>
+                    <div
+                      class="rotateDiv"
+                      @click="onClickExpandPESubMenu(menu.name?.toString())"
+                      :class="{actived: state.activedCollapseSubMenu === menu.name?.toString()}"
+                    />
                   </div>
                   <Collapse :when="state.activedCollapseSubMenu === menu.name?.toString()">
                     <ul
@@ -274,7 +286,11 @@
         </nav>
       </div>
     </div>
-    <div class="kur_header__searchout" v-cloak>
+    <div
+      class="kur_header__searchout"
+      :class="{actived: state.isSearchoutFrameVisable}"
+      v-cloak
+    >
       <div class="kur_container">
         <div class="kur_header__searchout-inner">
           <form
@@ -294,7 +310,9 @@
             <button type="submit" class="submit">搜索</button>
           </form>
           <div class="title">
-            <i class="iconfont kur-font icon-yingyong"></i>标签搜索
+            <i class="iconfont kur-font">
+              <font-awesome-icon :icon="['fa', 'cloud']"/>
+            </i>标签搜索
           </div>
           <ul class="tags">
             <li class="item" v-for="tag in state.tags" :key="tag.id" v-cloak>
@@ -309,7 +327,11 @@
         </div>
       </div>
     </div>
-    <div class="kur_header__mask"></div>
+    <div
+      class="kur_header__mask"
+      :class="{actived: state.isSildeOutVisable || state.isSearchoutFrameVisable}"
+      @click="onCancelPESildeOut"
+    ></div>
   </header>
 </template>
 
@@ -330,17 +352,69 @@ const info = {
 }
 
 const state = reactive({
-  stickyArticleList: [] as any[],
-  tags: [] as any[],
+  stickyArticleList: [
+    {
+      "type": "node--article",
+      "id": "cd387eca-80e1-4baa-a5f1-1a96821a52ad",
+      "links": {
+          "self": {
+              "href": "http:\/\/localhost\/drupal\/jsonapi\/node\/article\/cd387eca-80e1-4baa-a5f1-1a96821a52ad?resourceVersion=id%3A5"
+          }
+      },
+      "attributes": {
+          "drupal_internal__nid": 1,
+          "title": "Drupal jsonapi \u521d\u7ea7\u5165\u95e8\u5b9e\u8df5"
+      }
+    }
+  ] as any[],
+  tags: [
+    {
+      "type": "taxonomy_term--tags",
+      "id": "fbea5020-4647-4b6d-9701-2d27eb6e6b22",
+      "links": {
+          "self": {
+              "href": "http:\/\/localhost\/drupal\/jsonapi\/taxonomy_term\/tags\/fbea5020-4647-4b6d-9701-2d27eb6e6b22?resourceVersion=id%3A6"
+          }
+      },
+      "attributes": {
+          "name": "drupal",
+          "path": {
+              "alias": "\/tags\/drupal",
+              "pid": 1,
+              "langcode": "zh-hans"
+          },
+          "field_color": "#ea5455"
+      }
+    },
+    {
+      "type": "taxonomy_term--tags",
+      "id": "2fa4da8b-5f5a-4b18-9a94-2b99703503bd",
+      "links": {
+          "self": {
+              "href": "http:\/\/localhost\/drupal\/jsonapi\/taxonomy_term\/tags\/2fa4da8b-5f5a-4b18-9a94-2b99703503bd?resourceVersion=id%3A5"
+          }
+      },
+      "attributes": {
+          "name": "javascript",
+          "path": {
+              "alias": "\/tags\/javascript",
+              "pid": 2,
+              "langcode": "zh-hans"
+          },
+          "field_color": "#49C628"
+      }
+    }
+  ] as any[],
   articlesNums: 0,
   tagsCNums: 0,
   commentsNums: 0,
 
-  activedDropFrameMenu: undefined  as undefined | string,
-  activedCollapseSubMenu: undefined as undefined | string,
-  isSildeOutVisable: false,
-  isResultFrameVisable: false,
-  isExpandedPEMenu: false,
+  activedDropFrameMenu: undefined  as undefined | string, // PC端下拉二级菜单
+  activedCollapseSubMenu: undefined as undefined | string, // 移动端二级菜单展开
+  isSildeOutVisable: false, // 移动端侧边栏
+  isResultFrameVisable: false, // PC端搜索热点展示
+  isSearchoutFrameVisable: false, // 移动端搜索下拉栏
+  isExpandedPEMenu: false, // 移动端侧边栏菜单
 });
 
 const activedMenu = computed(() => {
@@ -352,10 +426,12 @@ const menuTree = computed(() => {
 });
 
 const clickPESearchBtn = () => {
-  // TODO: 跳转到搜索结果页
+  state.isSearchoutFrameVisable = true;
+  state.isSildeOutVisable = false;
 }
 
 const clickPEMenuIcon = () => {
+  state.isSearchoutFrameVisable = false;
   state.isSildeOutVisable = true;
 }
 
@@ -376,11 +452,20 @@ const showDropFrame = (name: string | undefined) => {
 }
 
 const onClickExpandPESubMenu = (name: string | undefined) => {
-  state.activedCollapseSubMenu = name;
+  if (state.activedCollapseSubMenu === name) {
+    state.activedCollapseSubMenu = undefined;
+  } else {
+    state.activedCollapseSubMenu = name;
+  }
 }
 
 const hideDropFrame = () => {
   state.activedDropFrameMenu = undefined;
+}
+
+const onCancelPESildeOut = () => {
+  state.isSearchoutFrameVisable = false;
+  state.isSildeOutVisable = false;
 }
 </script>
 
@@ -415,8 +500,8 @@ const hideDropFrame = () => {
     }
 
     &.actived {
-      -webkit-transform: translate3d(0, px2rem(-60px), 0);
-      transform: translate3d(0, px2rem(-60px), 0);
+      -webkit-transform: translate3d(0, -60px, 0);
+      transform: translate3d(0, -60px, 0);
     }
 
     &-container {
@@ -813,7 +898,7 @@ const hideDropFrame = () => {
         &-search {
           -webkit-transform-origin: right bottom;
           transform-origin: right bottom;
-          font-size: px2rem(20px);
+          font-size: px2rem(16px);
           color: #fff;
         }
       }
@@ -839,8 +924,8 @@ const hideDropFrame = () => {
         transition: visibility 0.35s, opacity 0.35s, transform 0.35s;
         transition: visibility 0.35s, opacity 0.35s, transform 0.35s,
           -webkit-transform 0.35s;
-        -webkit-transform: translate3d(0, px2rem(16px), 0);
-        transform: translate3d(0, px2rem(16px), 0);
+        -webkit-transform: translate3d(0, 16px, 0);
+        transform: translate3d(0, 16px, 0);
 
         &.actived {
           -webkit-transform: translate3d(0, 0, 0);
@@ -1115,15 +1200,8 @@ const hideDropFrame = () => {
         cursor: pointer;
         @include display-flex-center;
 
-        &.in {
-          .rotateDiv {
-            -webkit-transform: translateY(10%) rotate(45deg);
-            transform: translateY(10%) rotate(45deg);
-            border-color: var(--theme);
-          }
-        }
-
         .rotateDiv {
+          display: block;
           width: px2rem(7px);
           height: px2rem(7px);
           -webkit-transform: translateY(10%) rotate(-45deg);
@@ -1138,6 +1216,11 @@ const hideDropFrame = () => {
           transition-duration: 500ms;
           margin-left: px2rem(8px);
           margin-right: px2rem(8px);
+          &.actived {
+            -webkit-transform: translateY(10%) rotate(45deg);
+            transform: translateY(10%) rotate(45deg);
+            border-color: var(--theme);
+          }
         }
 
         &.in,
@@ -1186,7 +1269,7 @@ const hideDropFrame = () => {
     transition: transform 0.35s, visibility 0.35s, -webkit-transform 0.35s;
     visibility: hidden;
     @media (max-width: 768px) {
-      top: px2rem(55px);
+      top: px2rem(50px);
     }
 
     &.actived {
@@ -1209,7 +1292,7 @@ const hideDropFrame = () => {
         @include display-flex-center;
         .kur-font {
           margin-right: px2rem(5px);
-          font-size: px2rem(20px);
+          font-size: px2rem(14px);
           color: var(--routine);
         }
       }
@@ -1247,8 +1330,8 @@ const hideDropFrame = () => {
     bottom: 0;
     z-index: 4;
     background: rgba(0, 0, 0, 0.5);
-    -webkit-backdrop-filter: blur(px2rem(5px));
-    backdrop-filter: blur(px2rem(5px));
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
     opacity: 0;
     visibility: hidden;
     -webkit-transition: visibility 0.35s, opacity 0.35s;

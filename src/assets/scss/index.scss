@@ -182,8 +182,8 @@ button {
   &.actived > &__menu {
     visibility: visible;
     opacity: 1;
-    -webkit-transform: translateX(-50%) perspective(px2rem(600px)) rotateX(0);
-    transform: translateX(-50%) perspective(px2rem(600px)) rotateX(0);
+    -webkit-transform: translateX(-50%) perspective(600px) rotateX(0);
+    transform: translateX(-50%) perspective(600px) rotateX(0);
   }
   &__menu {
     position: absolute;
@@ -199,8 +199,8 @@ button {
     border-radius: 0 0 var(--radius-inner) var(--radius-inner);
     padding: px2rem(10px) 0;
     opacity: 0;
-    -webkit-transform: translateX(-50%) perspective(px2rem(600px)) rotateX(-45deg);
-    transform: translateX(-50%) perspective(px2rem(600px)) rotateX(-45deg);
+    -webkit-transform: translateX(-50%) perspective(600px) rotateX(-45deg);
+    transform: translateX(-50%) perspective(600px) rotateX(-45deg);
     -webkit-transition: opacity 0.35s, visibility 0.35s, -webkit-transform 0.35s;
     transition: opacity 0.35s, visibility 0.35s, transform 0.35s;
     transition: opacity 0.35s, visibility 0.35s, transform 0.35s,

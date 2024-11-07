@@ -31,9 +31,6 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
 }
-ol, ul {
-	list-style: none;
-}
 blockquote, q {
 	quotes: none;
 }
@@ -45,4 +42,134 @@ q:before, q:after {
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
+}
+
+/* 以下为自己写的reset样式 */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-size: 100%;
+
+  color-scheme: light dark;
+  background-color: white;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+html.disable-scroll,
+html.disable-scroll body {
+  height: 100vh;
+  overflow: hidden;
+}
+body {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+label {
+  font-weight: 700;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  margin: 0;
+  padding: 0;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  outline: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.clearfix {
+  &:before {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+input[type="text"] {
+  -webkit-appearance: none;
+  border-radius: 0;
+  font-size: px2rem(14px);
+  font-weight: 500;
+}
+
+iframe {
+  display: block;
+  border: 0;
+  margin: 0 auto;
+}
+
+textarea {
+  font-size: px2rem(14px);
+  resize: none;
+  -webkit-appearance: none;
+}
+
+li,
+ol,
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 500;
+}
+
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+img:not([src]),
+img[src=""] {
+  border: 0;
+  opacity: 0;
+}
+
+canvas,
+svg {
+  vertical-align: middle;
+}
+
+button {
+  cursor: pointer;
+  -webkit-appearance: none;
+  font-size: px2rem(14px);
 }

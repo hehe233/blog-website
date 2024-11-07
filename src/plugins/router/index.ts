@@ -41,5 +41,6 @@ router.afterEach(() => {
 
 export {
   router,
+  routes,
   blogRouter
 };

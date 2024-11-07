@@ -3,10 +3,9 @@
     <div class="kur_header__above topInDown" ref="menuAbove">
       <div class="kur_container kur_header__above-container">
         <i
-          class="iconfont kur_header__above-slideicon"
+          class="iconfont fa-regular fa-bars kur_header__above-slideicon"
           id="menuPeBtn"
-          @click="clickPEMenuIcon"
-        ><font-awesome-icon :icon="['fa', 'bars']" /></i>
+          @click="clickPEMenuIcon"></i>
         <router-link to="/" class="kur_header__above-logo">
           <img
             src=""
@@ -25,9 +24,8 @@
               }"
               v-if="!menu.children?.length"
             >
-              <i class="iconfont">
-                <font-awesome-icon :icon="menu.meta?.icon" />
-              </i>{{ menu.meta?.title }}
+              <i class="iconfont" :class="menu.meta?.icon"></i>
+              {{ menu.meta?.title }}
             </router-link>
             <div
               class="kur_dropdown"
@@ -50,9 +48,8 @@
                       menu.children.findIndex((sub: RouteRecordRaw) => `${menu.path}/${sub.path}` === activedMenu) > -1,
                   }"
                 >
-                  <i class="iconfont">
-                    <font-awesome-icon :icon="menu.meta?.icon" />
-                  </i>{{ menu.meta?.title }}
+                <i class="iconfont" :class="menu.meta?.icon"></i>
+                {{ menu.meta?.title }}
                 </router-link>
                 <div class="rotateDiv" />
               </div>
@@ -65,9 +62,8 @@
                       current: `${menu.path}/${childMenu.path}` === activedMenu,
                     }"
                   >
-                    <i class="iconfont">
-                      <font-awesome-icon :icon="childMenu.meta?.icon" />
-                    </i>{{ childMenu.meta?.title }}
+                    <i class="iconfont" :class="childMenu.meta?.icon"></i>
+                    {{ childMenu.meta?.title }}
                   </router-link>
                 </li>
               </ul>
@@ -87,9 +83,7 @@
             @focusout="hideResultFrame"
           />
           <button type="submit" class="submit" aria-label="搜索按钮">
-            <i class="iconfont submit-search">
-              <font-awesome-icon :icon="['fa', 'search']"/>
-            </i>
+            <i class="iconfont fa-regular fa-magnifying-glass submit-search"></i>
           </button>
           <span class="icon"></span>
           <nav
@@ -113,9 +107,8 @@
           </nav>
         </form>
         <i
-          class="iconfont kur_header__above-searchicon"
-          @click="clickPESearchBtn"
-        ><font-awesome-icon :icon="['fa', 'search']"/></i>
+          class="iconfont fa-regular fa-magnifying-glass kur_header__above-searchicon"
+          @click="clickPESearchBtn"></i>
       </div>
     </div>
     <div 
@@ -310,9 +303,7 @@
             <button type="submit" class="submit">搜索</button>
           </form>
           <div class="title">
-            <i class="iconfont kur-font">
-              <font-awesome-icon :icon="['fa', 'cloud']"/>
-            </i>标签搜索
+            <i class="iconfont fa-regular fa-cloud kur-font"></i>标签搜索
           </div>
           <ul class="tags">
             <li class="item" v-for="tag in state.tags" :key="tag.id" v-cloak>
@@ -339,7 +330,7 @@
 import { computed, reactive } from 'vue';
 import { RouteRecordRaw, useRoute } from 'vue-router';
 import { Collapse } from 'vue-collapsed';
-import { blogRouter } from '@/plugins/router/index.ts'
+import { blogRouter } from '@/plugins/router/index.ts';
 
 const route = useRoute();
 
@@ -422,7 +413,7 @@ const activedMenu = computed(() => {
 })
 
 const menuTree = computed(() => {
-  return blogRouter.children?.filter(route => !route.meta?.hidden);
+  return blogRouter.children?.filter(route => !route.meta?.hidden) || [];
 });
 
 const clickPESearchBtn = () => {
@@ -767,69 +758,6 @@ const onCancelPESildeOut = () => {
           @media (min-width: 1024px) {
             display: inline-block;
           }
-        }
-      }
-
-      .travelling-link {
-        height: px2rem(60px);
-        line-height: px2rem(60px);
-        font-size: px2rem(16px);
-        font-family: "Lobster";
-        position: relative;
-        -webkit-transition: -webkit-transform 0.5s;
-        transition: transform 0.5s;
-        transition: transform 0.5s, -webkit-transform 0.5s;
-        color: var(--main);
-        @include display-flex-center;
-
-        @media (max-width: 768px) {
-          display: none;
-        }
-
-        &:hover {
-          color: var(--theme);
-
-          &::before {
-            opacity: 0.3;
-            -webkit-transform: scaleX(0.7);
-            transform: scaleX(0.7);
-          }
-        }
-
-        &:hover i {
-          color: var(--theme);
-        }
-
-        &::before {
-          opacity: 0;
-          position: absolute;
-          bottom: 0;
-          left: px2rem(6px);
-          right: px2rem(6px);
-          content: "";
-          height: px2rem(3px);
-          -webkit-transform: scaleX(0.25);
-          transform: scaleX(0.25);
-          background: var(--theme);
-          border-radius: px2rem(6px) px2rem(6px) 0 0;
-          -webkit-transition: opacity 0.5s, -webkit-transform 0.5s;
-          transition: opacity 0.5s, transform 0.5s;
-          transition: opacity 0.5s, transform 0.5s, -webkit-transform 0.5s;
-
-          @media (max-width: 768px) {
-            display: none;
-          }
-        }
-
-        i {
-          color: var(--main);
-          display: inline-block;
-          margin-right: px2rem(2px);
-          font-size: px2rem(16px);
-          font-size: initial;
-          -webkit-transition: -webkit-transform 0.5s;
-          transition: transform 0.5s;
-          transition: transform 0.5s, -webkit-transform 0.5s;
         }
       }
     }

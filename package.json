@@ -8,9 +8,6 @@
     "preview": "rsbuild preview"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^6.6.0",
-    "@fortawesome/free-solid-svg-icons": "^6.6.0",
-    "@fortawesome/vue-fontawesome": "^3.0.8",
     "@types/next-nprogress": "^1.4.4",
     "axios": "^1.7.7",
     "nprogress": "^0.2.0",

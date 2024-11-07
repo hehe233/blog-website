@@ -21,6 +21,18 @@
   font-weight: 900;
   font-weight: var(--fa-style, 900); }
 
+  @font-face {
+    font-family: 'Font Awesome 6 Brands';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url("../fonts/fa-brands-400.woff2") format("woff2"), url("../fonts/fa-brands-400.woff") format("woff"), url("../fonts/fa-brands-400.ttf") format("truetype"); }
+  
+  .fab,
+  .fa-brands {
+    font-family: 'Font Awesome 6 Brands';
+    font-weight: 400; }
+
 .fa,
 .fas,
 .fa-solid,
@@ -321,6 +333,18 @@
 .fa-chain-horizontal:before,
 .fa-link-horizontal:before {
   content: '\e1cb';
+}
+
+.fa-github:before {
+  content: '\f09b';
+}
+
+.fa-bilibili:before {
+  content: '\e3d9';
+}
+
+.fa-at:before {
+  content: '\40';
 }
 
 .sr-only,

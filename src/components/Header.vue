@@ -136,57 +136,24 @@
             loading="lazy"
           />
           <div class="info">
-            <a class="link" href="#" target="_blank" v-cloak>{{ info.name }}</a>
-            <p class="motto" v-cloak>{{ info.motto }}</p>
+            <a class="link" href="#" target="_blank" v-cloak>{{ PersonInfo.name }}</a>
+            <p class="motto" v-cloak>{{ PersonInfo.motto }}</p>
           </div>
         </div>
         <div class="social-account">
-          <a class="github" :href="info.github" target="_blank" title="Github">
-            <svg
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-            >
-              <path
-                d="M512 95.872a426.666667 426.666667 0 0 0-134.912 831.445333c21.333333 3.754667 29.312-9.045333 29.312-20.266666 0-10.112-0.512-43.733333-0.512-79.445334-107.221333 19.712-134.954667-26.154667-143.488-50.133333a155.136 155.136 0 0 0-43.733333-60.288c-14.933333-7.978667-36.266667-27.733333-0.554667-28.245333a85.376 85.376 0 0 1 65.621333 43.733333 91.178667 91.178667 0 0 0 124.245334 35.2 89.770667 89.770667 0 0 1 27.221333-57.088c-94.933333-10.666667-194.133333-47.445333-194.133333-210.645333a166.058667 166.058667 0 0 1 43.733333-114.688 153.344 153.344 0 0 1 4.266667-113.066667s35.712-11.178667 117.333333 43.733333a402.218667 402.218667 0 0 1 213.333333 0c81.578667-55.466667 117.333333-43.733333 117.333334-43.733333a153.301333 153.301333 0 0 1 4.266666 113.066667 165.077333 165.077333 0 0 1 43.733334 114.688c0 163.712-99.754667 199.978667-194.688 210.645333a101.034667 101.034667 0 0 1 28.8 78.933333c0 57.088-0.512 102.954667-0.512 117.333334 0 11.221333 7.978667 24.533333 29.312 20.266666A426.88 426.88 0 0 0 512 95.872z"
-                fill="#333"
-              ></path>
-            </svg>
+          <a class="github" :href="PersonInfo.github" target="_blank" title="Github">
+            <i class="fa-brands fa-github"></i>
           </a>
-          <a class="bilibili" :href="info.bilibili" target="_blank" title="B站">
-            <svg
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-            >
-              <path
-                d="M777.514667 131.669333a53.333333 53.333333 0 0 1 0 75.434667L728.746667 255.829333h49.92A160 160 0 0 1 938.666667 415.872v320a160 160 0 0 1-160 160H245.333333A160 160 0 0 1 85.333333 735.872v-320a160 160 0 0 1 160-160h49.749334L246.4 207.146667a53.333333 53.333333 0 1 1 75.392-75.434667l113.152 113.152c3.370667 3.370667 6.186667 7.04 8.448 10.965333h137.088c2.261333-3.925333 5.12-7.68 8.490667-11.008l113.109333-113.152a53.333333 53.333333 0 0 1 75.434667 0z m1.152 231.253334H245.333333a53.333333 53.333333 0 0 0-53.205333 49.365333l-0.128 4.010667v320c0 28.117333 21.76 51.157333 49.365333 53.162666l3.968 0.170667h533.333334a53.333333 53.333333 0 0 0 53.205333-49.365333l0.128-3.968v-320c0-29.44-23.893333-53.333333-53.333333-53.333334z m-426.666667 106.666666c29.44 0 53.333333 23.893333 53.333333 53.333334v53.333333a53.333333 53.333333 0 1 1-106.666666 0v-53.333333c0-29.44 23.893333-53.333333 53.333333-53.333334z m320 0c29.44 0 53.333333 23.893333 53.333333 53.333334v53.333333a53.333333 53.333333 0 1 1-106.666666 0v-53.333333c0-29.44 23.893333-53.333333 53.333333-53.333334z"
-                fill="#fb7299"
-              ></path>
-            </svg>
+          <a class="bilibili" :href="PersonInfo.bilibili" target="_blank" title="B站">
+            <i class="fa-brands fa-bilibili"></i>
           </a>
           <a
             class="email"
-            :href="`mailto:${info.matlto}`"
+            :href="`mailto:${PersonInfo.matlto}`"
             target="_blank"
             title="邮箱"
           >
-            <svg
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              width="21"
-              height="22"
-            >
-              <path
-                d="M512 938.666667C276.352 938.666667 85.333333 747.648 85.333333 512S276.352 85.333333 512 85.333333s426.666667 191.018667 426.666667 426.666667-191.018667 426.666667-426.666667 426.666667z m341.333333-426.666667a341.333333 341.333333 0 1 0-169.301333 294.869333l-43.008-73.685333A256 256 0 1 1 768 512v42.666667a42.666667 42.666667 0 0 1-85.333333 0V384h-57.770667a170.666667 170.666667 0 1 0 2.816 253.44A128 128 0 0 0 853.333333 554.666667v-42.666667z m-341.333333-85.333333a85.333333 85.333333 0 1 1 0 170.666666 85.333333 85.333333 0 0 1 0-170.666666z"
-                fill="#dc4835"
-              ></path>
-            </svg>
+            <i class="fa-regular fa-at"></i>
           </a>
         </div>
         <ul class="kur_header__slideout-count" v-cloak>
@@ -199,7 +166,7 @@
           <li class="item">
             <i class="kur-font kur-icon-remen"></i>
             <span
-              >累计创建 <strong>{{ state.tagsCNums }}</strong> 个标签</span
+              >累计创建 <strong>{{ state.tagsNums }}</strong> 个标签</span
             >
           </li>
           <li class="item">
@@ -331,16 +298,9 @@ import { computed, reactive } from 'vue';
 import { RouteRecordRaw, useRoute } from 'vue-router';
 import { Collapse } from 'vue-collapsed';
 import { blogRouter } from '@/plugins/router/index.ts';
+import { PersonInfo } from '@/config/info';
 
 const route = useRoute();
-
-const info = {
-  name: '',
-  motto: '',
-  github: '',
-  bilibili: '',
-  matlto: '',
-}
 
 const state = reactive({
   stickyArticleList: [
@@ -397,7 +357,7 @@ const state = reactive({
     }
   ] as any[],
   articlesNums: 0,
-  tagsCNums: 0,
+  tagsNums: 0,
   commentsNums: 0,
 
   activedDropFrameMenu: undefined  as undefined | string, // PC端下拉二级菜单
@@ -1030,6 +990,22 @@ const onCancelPESildeOut = () => {
           &:hover {
             -webkit-transform: scale(1);
             transform: scale(1);
+          }
+
+          i {
+            font-size: px2rem(22px);
+          }
+
+          &.github {
+            color: var(--title)
+          }
+
+          &.bilibili {
+            color: #fb7299;
+          }
+
+          &.email {
+            color: #dc4835;
           }
         }
       }

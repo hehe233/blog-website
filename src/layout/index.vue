@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Kur">
     <Header></Header>
     <Container :viewName="viewName">
       <router-view></router-view>
@@ -40,3 +40,19 @@ const viewName = computed(() => {
   }
 });
 </script>
+
+<style lang="scss" scoped>
+  .Kur {
+    -webkit-box-direction: normal;
+    position: relative;
+    z-index: 1;
+    -webkit-box-pack: justify;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -webkit-box-orient: vertical;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-height: 100vh;
+    @include display-flex;
+  }
+</style>

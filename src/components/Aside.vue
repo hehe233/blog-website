@@ -215,12 +215,12 @@ const state = reactive({
         .user {
           position: relative;
           z-index: 4;
-          @include display-flex-center;
           -webkit-box-orient: vertical;
           -webkit-box-direction: normal;
           -ms-flex-direction: column;
           flex-direction: column;
           padding-bottom: 0.9375rem;
+          @include display-flex-center;
 
           .avatar_wrapper {
             position: relative;
@@ -267,11 +267,11 @@ const state = reactive({
           }
         }
         .count {
-          @include display-flex-center;
           width: 100%;
           padding-bottom: 0.625rem;
+          @include display-flex-center;
+
           .item {
-            @include display-flex-center;
             position: relative;
             min-width: 0;
             -webkit-box-flex: 1;
@@ -283,6 +283,8 @@ const state = reactive({
             flex-direction: column;
             color: var(--routine);
             font-size: 0.75rem;
+            @include display-flex-center;
+
             &:after {
               position: absolute;
               top: 0.75rem;
@@ -297,23 +299,24 @@ const state = reactive({
             }
             .num {
               max-width: 4.375rem;
-              @include truncate;
               font-weight: 500;
               font-size: 1.375rem;
               color: var(--title);
               margin-bottom: 0.1875rem;
               text-shadow: var(--text_shadow);
+              @include truncate;
             }
           }
         }
         .social-account {
-          @include display-flex-center;
           -ms-flex-pack: distribute;
           justify-content: space-around;
           padding-top: 10px;
           text-align: center;
           font-size: 14px;
           border-top: 1px solid var(--classC);
+          @include display-flex-center;
+
           a {
             -webkit-transform: scale(0.9);
             transform: scale(0.9);
@@ -352,18 +355,20 @@ const state = reactive({
         .list {
           padding-top: 1px;
           .item {
-            @include display-flex-center;
             -webkit-box-pack: justify;
             -ms-flex-pack: justify;
             justify-content: space-between;
             line-height: 1.875rem;
             margin-bottom: 0.9375rem;
             line-height: 1.25rem;
+            @include display-flex-center;
+
             .link {
               position: relative;
               color: var(--routine);
               max-width: 85%;
               @include truncate;
+
               &::after {
                 content: "";
                 position: absolute;
@@ -401,7 +406,6 @@ const state = reactive({
       }
       &-title {
         position: relative;
-        @include display-flex-center;
         font-size: 1rem;
         font-weight: 500;
         height: 2.8125rem;
@@ -409,6 +413,8 @@ const state = reactive({
         padding: 0 0.9375rem;
         color: var(--classF);
         border-bottom: 1px solid var(--classC);
+        @include display-flex-center;
+
         .kur-font {
           margin-right: 0.3125rem;
           font-size: 1.25rem;

@@ -139,21 +139,23 @@
 <style lang="scss">
   .kur_index {
     &__article {
-      padding: 0 0.9375rem;
+      padding: 0 px2rem(15px);
     }
     &__title {
-      @include display-flex-center;
       border-bottom: 1px solid var(--classC);
+      @include display-flex-center;
+
       &-title {
-        @include display-flex-center;
         position: relative;
         color: var(--theme);
         font-weight: 500;
-        height: 44px;
-        line-height: 44px;
+        height: px2rem(44px);
+        line-height: px2rem(44px);
+        @include display-flex-center;
+
         .item {
           cursor: pointer;
-          margin-right: 16px;
+          margin-right: px2rem(16px);
           -webkit-user-select: none;
           -moz-user-select: none;
           -ms-user-select: none;

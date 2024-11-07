@@ -15,6 +15,7 @@
 
 <script lang="ts" setup>
 import { computed, PropType } from 'vue';
+import Aside from './Aside.vue'
 
 const props = defineProps({
   viewName: {
@@ -24,7 +25,7 @@ const props = defineProps({
 });
 
 const hasSideBar = computed(() => {
-  return ['search', 'sheet'].includes(props.viewName)
+  return !(['search', 'sheet'].includes(props.viewName))
 });
 
 const className = computed(() => {
@@ -42,7 +43,7 @@ const className = computed(() => {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    margin-top: 20px;
+    margin-top: px2rem(20px);
     &.revert {
       -webkit-box-orient: horizontal;
       -webkit-box-direction: reverse;
@@ -50,7 +51,7 @@ const className = computed(() => {
       flex-direction: row-reverse;
       .kur_aside {
         margin-left: 0;
-        margin-right: 0.9375rem;
+        margin-right: px2rem(15px);
       }
     }
   }
@@ -59,7 +60,7 @@ const className = computed(() => {
     -webkit-box-flex: 1;
     -ms-flex: 1;
     flex: 1;
-    padding-bottom: 0.9375rem;
+    padding-bottom: px2rem(15px);
   }
   .kur_index {
     overflow-y: hidden;
@@ -70,8 +71,8 @@ const className = computed(() => {
   }
   .kur_detail {
     position: relative;
-    margin-bottom: 0.9375rem;
-    padding: 1.25rem;
+    margin-bottom: px2rem(15px);
+    padding: px2rem(1.25rem);
     background: var(--background);
     border-radius: var(--radius-wrap);
     -webkit-box-shadow: var(--box-shadow);
@@ -90,7 +91,7 @@ const className = computed(() => {
     border-radius: var(--radius-wrap);
   }
   .kur_archive {
-    padding: 0 0.9375rem;
+    padding: 0 px2rem(15px);
     background: var(--background);
     border-radius: var(--radius-wrap);
     -webkit-box-shadow: var(--box-shadow);
@@ -99,12 +100,12 @@ const className = computed(() => {
   .kur_load {
     position: relative;
     z-index: 1;
-    margin: 15px auto 0;
-    width: 120px;
-    height: 32px;
-    line-height: 32px;
+    margin: px2rem(15px) auto 0;
+    width: px2rem(120px);
+    height: px2rem(32px);
+    line-height: px2rem(32px);
     text-align: center;
-    border-radius: 16px;
+    border-radius: px2rem(16px);
     cursor: pointer;
     background: var(--background);
     -webkit-transition: -webkit-transform 0.25s;

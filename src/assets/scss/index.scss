@@ -13,8 +13,9 @@
   width: 100%;
   margin: 0 auto px2rem(30px);
   padding: 0 px2rem(16px);
-  @include display-flex;
   -webkit-box-direction: normal;
+  @include display-flex;
+
   img {
     max-width: 100%;
   }
@@ -77,13 +78,14 @@
 }
 
 .social-account {
-  @include display-flex-center;
   -ms-flex-pack: distribute;
   justify-content: space-around;
   padding-top: px2rem(10px);
   text-align: center;
   font-size: px2rem(14px);
   border-top: 1px solid var(--classC);
+  @include display-flex-center;
+
   a {
     -webkit-transform: scale(0.9);
     transform: scale(0.9);
@@ -127,8 +129,9 @@
     border-radius: var(--radius-inner);
   }
   &.default {
-    @include display-flex;
     position: relative;
+    @include display-flex;
+
     &:hover {
       &::before {
         -webkit-transform: scaleY(1);
@@ -197,7 +200,6 @@
       }
     }
     .information {
-      @include display-flex;
       -webkit-box-orient: vertical;
       -webkit-box-direction: normal;
       -ms-flex-direction: column;
@@ -206,8 +208,9 @@
       -ms-flex: 1;
       flex: 1;
       min-width: 0;
+      @include display-flex;
+
       .title {
-        @include truncate-two;
         margin-bottom: px2rem(10px);
         color: var(--main);
         font-size: px2rem(18px);
@@ -215,6 +218,8 @@
         max-height: px2rem(48px);
         -webkit-transition: color 0.35s;
         transition: color 0.35s;
+        @include truncate-two;
+
         .badge {
           height: px2rem(20px);
           padding: 0 px2rem(6px);
@@ -233,29 +238,30 @@
         }
       }
       .abstract {
-        @include truncate-two;
         color: var(--minor);
         line-height: px2rem(22px);
         max-height: px2rem(44px);
         opacity: 0.85;
+        @include truncate-two;
       }
     }
   }
   .meta {
-    @include display-flex-center;
     -webkit-box-pack: justify;
     -ms-flex-pack: justify;
     justify-content: space-between;
     margin-top: auto;
     color: var(--minor);
     font-size: px2rem(14px);
+    @include display-flex-center;
     .items {
-      @include display-flex-center;
       -webkit-box-pack: start;
       -ms-flex-pack: start;
       justify-content: flex-start;
       -ms-flex-negative: 0;
       flex-shrink: 0;
+      @include display-flex-center;
+
       li::after {
         content: "/";
         color: var(--seat);
@@ -263,16 +269,18 @@
       }
     }
     .categories {
-      @include display-flex-center;
       -webkit-box-pack: justify;
       -ms-flex-pack: justify;
       justify-content: space-between;
       max-width: px2rem(320px);
       white-space: nowrap;
       overflow-x: auto;
+      @include display-flex-center;
+
       .pcate {
         margin-left: px2rem(5px);
         @include display-flex-center;
+
         .icon {
           margin-right: px2rem(3px);
         }
@@ -297,7 +305,6 @@
 }
 
 .kur_empty {
-  @include display-flex-center;
   -webkit-box-pack: center;
   -ms-flex-pack: center;
   justify-content: center;
@@ -307,6 +314,8 @@
   flex-direction: column;
   padding: px2rem(50px) 0;
   font-style: italic;
+  @include display-flex-center;
+
   &-icon {
     width: px2rem(90px);
     height: px2rem(90px);

@@ -2,7 +2,7 @@
   <div class="kur_index__article">
     <div class="kur_index__title">
       <ul class="kur_index__title-title passage-list-tabs">
-        <li class="item" data-type="1">最新文章</li>
+        <li class="item" data-type="1" @click="">最新文章</li>
         <li class="item actived" data-type="2">热门文章</li>
         <li class="item" data-type="3">最近更新</li>
         <li class="item" data-type="4">最多点赞</li>
@@ -12,13 +12,8 @@
     <div class="kur_index__list">
       <div class="kur_list">
         <li
-          class="kur_list__item default animated wow"
-          data-wow-delay="0.0s"
-          style="
-            visibility: visible;
-            animation-delay: 0s;
-            animation-name: fadeInUp;
-          "
+          class="kur_list__item default"
+          need-animation
         >
           <a
             href="/archives/algorithm-templates-and-tricks"
@@ -133,7 +128,20 @@
 </template>
 
 <script lang="ts" setup>
+import { BounceInUp } from '@/util/animation';
+import { onMounted, onUnmounted } from 'vue';
 
+const tabs = [
+  
+];
+
+onMounted(() => {
+  BounceInUp.init();
+});
+
+onUnmounted(() => {
+  BounceInUp.destroy();
+});
 </script>
 
 <style lang="scss">

@@ -1,8 +1,3 @@
-html,
-html[data-mode="dark"] {
-  background: var(--background);
-}
-
 html {
   --font-default: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "å¾®è½¯é›…é»‘", Arial, "sans-serif";
@@ -36,15 +31,15 @@ html {
   --code-background: #e8f3ff;
   --overdue-border: #ffbb76;
   --overdue-background: #fffcef;
-  --radius-wrap: px2rem(8px);
+  --radius-wrap: #{px2rem(8px)};
   --radius-inner: 4px;
-  --radius-img: 5px;
-  --box-shadow: 0 0px px2rem(10px) -5px #949494;
+  --radius-img: #{px2rem(5px)};
+  --box-shadow: 0 0px #{px2rem(10px)} -5px #949494;
   --text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   --shadow-code: #bdbdbd;
-  --block-shadow: 1px 2px px2rem(10px) 0 #afafaf;
+  --block-shadow: 1px 2px #{px2rem(10px)} 0 #afafaf;
   --box-shadow-journal: #d8d8d8;
-  --box-shadow-toc: inset px2rem(20px) 0 px2rem(30px) 0 #dadada, 1px 2px px2rem(10px) 0 #a8a8a8;
+  --box-shadow-toc: inset #{px2rem(20px)} 0 #{px2rem(30px)} 0 #dadada, 1px 2px #{px2rem(10px)} 0 #a8a8a8;
   --background-toc: rgba(255, 255, 255, 0.95);
   --box-shadow-tags: 2px 2px 3px 0px #c2c0b3;
   --background-tags: #fffaeb;
@@ -59,8 +54,9 @@ html {
     #d4d4d4,
     transparent 80%
   );
-  --shadow-notice: inset 0 0 px2rem(16px) #d1dae8;
+  --shadow-notice: inset 0 0 #{px2rem(16px)} #d1dae8;
   --animation-notice: twinkle 1s ease infinite alternate;
+
   &[data-mode="dark"] {
     --background-reverse: #fff;
     --background: #232323;
@@ -95,10 +91,10 @@ html {
     --box-shadow: 1px 1px 3px 1px #1b1b1b;
     --text-shadow: none;
     --shadow-code: #191919;
-    --block-shadow: 2px 4px px2rem(10px) 0 #0a0a0a;
+    --block-shadow: 2px 4px #{px2rem(10px)} 0 #0a0a0a;
     --box-shadow-journal: rgba(0, 0, 0, 0.2);
-    --box-shadow-toc: inset 0 0 px2rem(30px) 0 rgba(253, 253, 253, 0.34),
-      1px 2px px2rem(10px) 0 #181818;
+    --box-shadow-toc: inset 0 0 #{px2rem(30px)} 0 rgba(253, 253, 253, 0.34),
+      1px 2px #{px2rem(10px)} 0 #181818;
     --background-toc: rgba(35, 35, 35, 0.98);
     --box-shadow-tags: 2px 2px 3px 0px #111;
     --background-tags: #35353e;
@@ -113,9 +109,67 @@ html {
       #151515,
       transparent 80%
     );
-    --shadow-notice: inset 0 0 px2rem(16px) #4a4c4e;
+    --shadow-notice: inset 0 0 #{px2rem(16px)} #4a4c4e;
     --animation-notice: twinkle-night 1s ease infinite alternate;
   }
+}
+
+html body {
+  --theme: #475eae;
+  --scroll-bar: #c0c4cc;
+  --loading-bar: var(--theme);
+  --img-max-width: 100%;
+  font-family: "kur Font", "Helvetica Neue", Helvetica, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, "sans-serif";
+  --res-url: "/themes/kur2.0";
+}
+
+body:after {
+  background-color: #efefef;
+  background-image: linear-gradient(90deg, rgba(60, 10, 30, .04) 3%, transparent 0), linear-gradient(1turn, rgba(60, 10, 30, .04) 3%, transparent 0);
+  background-size: #{px2rem(20px)} #{px2rem(20px)};
+  background-position: 50%;
+  background-repeat: repeat;
+}
+
+body:after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -10;
+  pointer-events: none;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scroll-bar);
+}
+
+html,
+html[data-mode="dark"] {
+  background: var(--background);
+}
+
+html[data-mode="light"] body {
+  background-position: top center;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 85%;
+  background-image: url(../images/lightBg.png);
+}
+
+html[data-mode='light'] .Kur {
+  opacity: 0.95;
+}
+
+html[data-mode='dark'] .Kur {
+  opacity: 0.92;
 }
 
 html[data-mode="dark"] body:after {
@@ -215,35 +269,11 @@ html[data-mode="dark"] .kur_detail__friends {
 html[data-mode="dark"] .toc-nodata em {
   opacity: 0.4;
 }
-html body {
-  --theme: #475eae;
-  --scroll-bar: #c0c4cc;
-  --loading-bar: var(--theme);
-  --img-max-width: 100%;
-  font-family: "kur Font", "Helvetica Neue", Helvetica, "PingFang SC",
-    "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, "sans-serif";
-  --res-url: "/themes/kur2.0";
-}
+
 html[data-mode="dark"] body {
   --theme: #fbdc93;
   --scroll-bar: #666;
   --loading-bar: var(--theme);
-}
-
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--scroll-bar);
-}
-
-html[data-mode="light"] body {
-  background-position: top center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-  background-size: 85%;
-  background-image: url(../images/atri.png);
 }
 
 html[data-mode="dark"] body {
@@ -251,33 +281,10 @@ html[data-mode="dark"] body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
-  background-image: url(../images/BG.png);
+  background-image: url(../images/darkBg.png);
 }
 
-html[data-mode='light'] .Kur {
-  opacity: 0.95;
-}
-
-body:after {
-  background-color: #efefef;
-  background-image: linear-gradient(90deg, rgba(60, 10, 30, .04) 3%, transparent 0), linear-gradient(1turn, rgba(60, 10, 30, .04) 3%, transparent 0);
-  background-size: 20px 20px;
-  background-position: 50%;
-  background-repeat: repeat;
-}
-
-body:after {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -10;
-  pointer-events: none;
-}
-
-html[data-mode=dark] body:after {
+html[data-mode="dark"] body:after {
   background: #2b2b2b;
   z-index: -200;
 }

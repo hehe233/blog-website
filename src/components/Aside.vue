@@ -86,7 +86,7 @@
               :title="article.title"
               >{{ article.attributes.title }}</a
             >
-            <i class="kur-font iconfont icon-link1"></i>
+            <i class="kur-font iconfont fa-regular fa-link"></i>
           </li>
         </ul>
       </div>
@@ -160,32 +160,32 @@ const state = reactive({
 
 <style lang="scss" scoped>
   .kur_aside {
-    padding-bottom: 0.9375rem;
-    margin-left: 0.9375rem;
+    padding-bottom: px2rem(15px);
+    margin-left: px2rem(15px);
     &__item {
       position: relative;
-      width: 17.5rem;
-      margin-bottom: 0.9375rem;
+      width: px2rem(280px);
+      margin-bottom: px2rem(15px);
       border-radius: var(--radius-wrap);
       -webkit-box-shadow: var(--box-shadow);
       box-shadow: var(--box-shadow);
       overflow: hidden;
       &:last-child {
         position: sticky;
-        top: 75px;
+        top: px2rem(75px);
         margin-bottom: 0;
         -webkit-transition: top 0.35s;
         transition: top 0.35s;
       }
       &.author {
         background: var(--background);
-        padding: 2.8125rem 0.9375rem 0.9375rem;
+        padding: px2rem(45px) px2rem(15px) px2rem(15px);
         .image {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
-          height: 7.5rem;
+          height: px2rem(120px);
           -o-object-fit: cover;
           object-fit: cover;
           z-index: 1;
@@ -194,10 +194,10 @@ const state = reactive({
         &::before {
           content: "";
           position: absolute;
-          top: 5.625rem;
+          top: px2rem(90px);
           left: 0;
           width: 100%;
-          height: 1.875rem;
+          height: px2rem(30px);
           z-index: 2;
           background: -webkit-gradient(
             linear,
@@ -219,14 +219,14 @@ const state = reactive({
           -webkit-box-direction: normal;
           -ms-flex-direction: column;
           flex-direction: column;
-          padding-bottom: 0.9375rem;
+          padding-bottom: px2rem(15px);
           @include display-flex-center;
 
           .avatar_wrapper {
             position: relative;
-            width: 6rem;
-            height: 6rem;
-            margin-bottom: 0.25rem;
+            width: px2rem(96px);
+            height: px2rem(96px);
+            margin-bottom: px2rem(4px);
             -webkit-user-select: none;
             -moz-user-select: none;
             -ms-user-select: none;
@@ -235,10 +235,10 @@ const state = reactive({
 
           .avatar {
             display: block;
-            width: 6rem;
-            height: 6rem;
+            width: px2rem(96px);
+            height: px2rem(96px);
             overflow: hidden;
-            padding: 0.25rem;
+            padding: px2rem(4px);
             -o-object-fit: cover;
             object-fit: cover;
             background: var(--classC);
@@ -254,11 +254,11 @@ const state = reactive({
 
           .link {
             color: var(--theme);
-            margin-bottom: 0.625rem;
+            margin-bottom: px2rem(10px);
             text-align: center;
-            font-size: 1rem;
+            font-size: px2rem(16px);
             font-weight: 500;
-            text-shadow: 1px 1px 0.5rem var(--theme);
+            text-shadow: 1px 1px px2rem(8px) var(--theme);
           }
           .motto {
             color: var(--main);
@@ -268,7 +268,7 @@ const state = reactive({
         }
         .count {
           width: 100%;
-          padding-bottom: 0.625rem;
+          padding-bottom: px2rem(10px);
           @include display-flex-center;
 
           .item {
@@ -282,27 +282,27 @@ const state = reactive({
             -ms-flex-direction: column;
             flex-direction: column;
             color: var(--routine);
-            font-size: 0.75rem;
+            font-size: px2rem(12px);
             @include display-flex-center;
 
             &:after {
               position: absolute;
-              top: 0.75rem;
+              top: px2rem(12px);
               right: 0;
               content: "";
               width: 1px;
-              height: 1.875rem;
+              height: px2rem(30px);
               background: var(--classC);
             }
             &:last-child:after {
               display: none;
             }
             .num {
-              max-width: 4.375rem;
+              max-width: px2rem(70px);
               font-weight: 500;
-              font-size: 1.375rem;
+              font-size: px2rem(22px);
               color: var(--title);
-              margin-bottom: 0.1875rem;
+              margin-bottom: px2rem(3px);
               text-shadow: var(--text_shadow);
               @include truncate;
             }
@@ -311,9 +311,9 @@ const state = reactive({
         .social-account {
           -ms-flex-pack: distribute;
           justify-content: space-around;
-          padding-top: 10px;
+          padding-top: px2rem(10px);
           text-align: center;
-          font-size: 14px;
+          font-size: px2rem(14px);
           border-top: 1px solid var(--classC);
           @include display-flex-center;
 
@@ -358,9 +358,9 @@ const state = reactive({
             -webkit-box-pack: justify;
             -ms-flex-pack: justify;
             justify-content: space-between;
-            line-height: 1.875rem;
-            margin-bottom: 0.9375rem;
-            line-height: 1.25rem;
+            line-height: px2rem(30px);
+            margin-bottom: px2rem(15px);
+            line-height: px2rem(20px);
             @include display-flex-center;
 
             .link {
@@ -382,7 +382,7 @@ const state = reactive({
               }
             }
             .kur-font {
-              font-size: 1.125rem;
+              font-size: px2rem(18px);
               color: var(--routine);
               -webkit-transition: -webkit-transform 0.3s;
               transition: transform 0.3s;
@@ -401,30 +401,33 @@ const state = reactive({
                 color: var(--theme);
               }
             }
+            &:last-child {
+              margin-bottom: 0;
+            }
           }
         }
       }
       &-title {
         position: relative;
-        font-size: 1rem;
+        font-size: px2rem(16px);
         font-weight: 500;
-        height: 2.8125rem;
-        line-height: 2.8125rem;
-        padding: 0 0.9375rem;
+        height: px2rem(45px);
+        line-height: px2rem(45px);
+        padding: 0 px2rem(15px);
         color: var(--classF);
         border-bottom: 1px solid var(--classC);
         @include display-flex-center;
 
         .kur-font {
-          margin-right: 0.3125rem;
-          font-size: 1.25rem;
+          margin-right: px2rem(5px);
+          font-size: px2rem(20px);
           font-weight: 700;
           color: var(--theme);
         }
       }
       &-contain {
         position: relative;
-        padding: 0.9375rem;
+        padding: px2rem(15px);
       }
     }
   }

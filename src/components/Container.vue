@@ -39,19 +39,21 @@ const className = computed(() => {
 </script>
 
 <style lang="scss">
-  .kur_main_container {
-    -webkit-box-flex: 1;
-    -ms-flex: 1;
-    flex: 1;
-    margin-top: px2rem(20px);
-    &.revert {
-      -webkit-box-orient: horizontal;
-      -webkit-box-direction: reverse;
-      -ms-flex-direction: row-reverse;
-      flex-direction: row-reverse;
-      .kur_aside {
-        margin-left: 0;
-        margin-right: px2rem(15px);
+  .Kur {
+    .kur_main_container {
+      -webkit-box-flex: 1;
+      -ms-flex: 1;
+      flex: 1;
+      margin-top: px2rem(20px);
+      &.revert {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: reverse;
+        -ms-flex-direction: row-reverse;
+        flex-direction: row-reverse;
+        .kur_aside {
+          margin-left: 0;
+          margin-right: px2rem(15px);
+        }
       }
     }
   }

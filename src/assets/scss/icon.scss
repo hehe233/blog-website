@@ -347,6 +347,11 @@
   content: '\40';
 }
 
+.fa-chain:before,
+.fa-link:before {
+  content: '\f0c1';
+}
+
 .sr-only,
 .fa-sr-only {
   position: absolute;

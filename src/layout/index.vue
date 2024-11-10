@@ -11,8 +11,8 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
-import Header from '../components/Header.vue';
-import Container from '@/components/Container.vue';
+import Header from './components/Header.vue';
+import Container from './components/Container.vue';
 
 const route = useRoute();
 

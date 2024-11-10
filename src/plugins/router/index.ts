@@ -1,4 +1,5 @@
 import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router';
+import { useMenuStore } from '@/stores';
 import Layout from '@/layout/index.vue';
 import blogRouter from './modules/blog';
 import NProgress from 'nprogress';
@@ -32,6 +33,11 @@ const router = createRouter({
 
 router.beforeEach((_to, _from, next) => {
   NProgress.start();
+  const menuStore = useMenuStore() || {};
+  menuStore.initTagsData();
+  menuStore.initCategoriesData();
+  menuStore.initStickyArticles();
+  menuStore.initArticlesCount();
   next();
 });
 

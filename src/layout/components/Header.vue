@@ -8,7 +8,7 @@
           @click="clickPEMenuIcon"></i>
         <router-link to="/" class="kur_header__above-logo">
           <img
-            src=""
+            src="@/assets/images/logo.png"
             alt="LOGO"
             loading="lazy"
             style="border-radius: 0px"
@@ -95,10 +95,10 @@
             v-cloak
           >
             <a
-              v-for="(article, index) in state.stickyArticleList"
+              v-for="(article, index) in stickyArticles"
               :key="article.id"
               :href="'/archives/' + article.attributes.drupal_internal__nid"
-              :title="article.title"
+              :title="article.attributes.title"
               class="item"
             >
               <span class="sort">{{ index + 1 }}</span>
@@ -122,7 +122,7 @@
           width="100%"
           height="150"
           class="kur_header__slideout-image"
-          src=""
+          src="@/assets/images/aside_pc.png"
           alt="aside background"
           loading="lazy"
         />
@@ -131,7 +131,7 @@
             width="50"
             height="50"
             class="avatar"
-            src=""
+            src="@/assets/images/avatar.jpg"
             alt="avatar"
             loading="lazy"
           />
@@ -160,19 +160,19 @@
           <li class="item">
             <i class="kur-font kur-icon-riji"></i>
             <span
-              >累计撰写 <strong>{{ state.articlesNums }}</strong> 篇文章</span
+              >累计撰写 <strong>{{ articlesCount }}</strong> 篇文章</span
             >
           </li>
           <li class="item">
             <i class="kur-font kur-icon-remen"></i>
             <span
-              >累计创建 <strong>{{ state.tagsNums }}</strong> 个标签</span
+              >累计创建 <strong>{{ tagsCount }}</strong> 个标签</span
             >
           </li>
           <li class="item">
             <i class="kur-font kur-icon-message"></i>
             <span
-              >累计收到 <strong>{{ state.commentsNums }}</strong> 条评论</span
+              >累计创建 <strong>{{ categoriesCount }}</strong> 条评论</span
             >
           </li>
         </ul>
@@ -273,10 +273,10 @@
             <i class="iconfont fa-regular fa-cloud kur-font"></i>标签搜索
           </div>
           <ul class="tags">
-            <li class="item" v-for="tag in state.tags" :key="tag.id" v-cloak>
+            <li class="item" v-for="tag in allTagsList" :key="tag.id" v-cloak>
               <a
                 :style="{ background: tag.attributes.field_color }"
-                :href="tag.attributes.path.alias"
+                href=""
                 :title="tag.attributes.name"
                 >{{ tag.attributes.name }}</a
               >
@@ -299,67 +299,12 @@ import { RouteRecordRaw, useRoute } from 'vue-router';
 import { Collapse } from 'vue-collapsed';
 import { blogRouter } from '@/plugins/router/index.ts';
 import { PersonInfo } from '@/config/info';
+import { useMenuStore } from '@/stores';
+import { storeToRefs } from 'pinia';
 
 const route = useRoute();
 
 const state = reactive({
-  stickyArticleList: [
-    {
-      "type": "node--article",
-      "id": "cd387eca-80e1-4baa-a5f1-1a96821a52ad",
-      "links": {
-          "self": {
-              "href": "http:\/\/localhost\/drupal\/jsonapi\/node\/article\/cd387eca-80e1-4baa-a5f1-1a96821a52ad?resourceVersion=id%3A5"
-          }
-      },
-      "attributes": {
-          "drupal_internal__nid": 1,
-          "title": "Drupal jsonapi \u521d\u7ea7\u5165\u95e8\u5b9e\u8df5"
-      }
-    }
-  ] as any[],
-  tags: [
-    {
-      "type": "taxonomy_term--tags",
-      "id": "fbea5020-4647-4b6d-9701-2d27eb6e6b22",
-      "links": {
-          "self": {
-              "href": "http:\/\/localhost\/drupal\/jsonapi\/taxonomy_term\/tags\/fbea5020-4647-4b6d-9701-2d27eb6e6b22?resourceVersion=id%3A6"
-          }
-      },
-      "attributes": {
-          "name": "drupal",
-          "path": {
-              "alias": "\/tags\/drupal",
-              "pid": 1,
-              "langcode": "zh-hans"
-          },
-          "field_color": "#ea5455"
-      }
-    },
-    {
-      "type": "taxonomy_term--tags",
-      "id": "2fa4da8b-5f5a-4b18-9a94-2b99703503bd",
-      "links": {
-          "self": {
-              "href": "http:\/\/localhost\/drupal\/jsonapi\/taxonomy_term\/tags\/2fa4da8b-5f5a-4b18-9a94-2b99703503bd?resourceVersion=id%3A5"
-          }
-      },
-      "attributes": {
-          "name": "javascript",
-          "path": {
-              "alias": "\/tags\/javascript",
-              "pid": 2,
-              "langcode": "zh-hans"
-          },
-          "field_color": "#49C628"
-      }
-    }
-  ] as any[],
-  articlesNums: 0,
-  tagsNums: 0,
-  commentsNums: 0,
-
   activedDropFrameMenu: undefined  as undefined | string, // PC端下拉二级菜单
   activedCollapseSubMenu: undefined as undefined | string, // 移动端二级菜单展开
   isSildeOutVisable: false, // 移动端侧边栏
@@ -367,6 +312,9 @@ const state = reactive({
   isSearchoutFrameVisable: false, // 移动端搜索下拉栏
   isExpandedPEMenu: false, // 移动端侧边栏菜单
 });
+
+const menuStore = useMenuStore();
+const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles } = storeToRefs(menuStore);
 
 const activedMenu = computed(() => {
   return route.path;

@@ -65,6 +65,17 @@ export default defineConfig({
     },
   },
 
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost/drupal/jsonapi',
+        pathRewrite: { '^/api': '' },
+        changeOrigin: true,
+        secure: false,
+      }
+    },
+  },
+
   tools: {
     rspack (config, { appendPlugins }) {
       if (process.env.RSDOCTOR) {

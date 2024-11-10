@@ -157,10 +157,10 @@ html[data-mode="dark"] {
 }
 
 html[data-mode="light"] body {
-  background-position: top center;
+  background-position: center 22%;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: 85%;
+  background-size: 80%;
   background-image: url(../images/lightBg.png);
 }
 

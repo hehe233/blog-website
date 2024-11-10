@@ -55,11 +55,9 @@ class ErrorProcessor extends Error {
 
 const options: AxiosRequestConfig = {
   timeout: 90 * 1000,
-  // baseURL: '/api',
 };
 
 const instance = axios.create(options);
-
 const handleResponse = function (res: AxiosResponse) {
   res.status !== 200 && console.log('%c status ', 'background: red; color: #fff', res.status);
   switch (res.status) {
@@ -75,8 +73,8 @@ const axiosThen = function (response: AxiosResponse) {
     // 兼容 axios 在接受blob数据时 会把整个data转化为blob类型，从而导致resData.data不存在
     if (resData instanceof Blob) {
       return resData;
-    } else if (resData.isSuccess) {
-      return Promise.resolve(resData.data);
+    } else if (resData.data) {
+      return Promise.resolve(resData);
     } else {
       console.log('%c CATCH ERROR', 'background: red; color: #fff', resData.msg);
       return Promise.reject(new Error(resData.msg));

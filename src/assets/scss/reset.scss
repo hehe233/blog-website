@@ -59,6 +59,25 @@ table {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --tagcloud-transition-user-duration: 1250ms;
+  --tagcloud-transition-user-ease: ease-in-out;
+  --tagcloud-transition-duration: 250ms;
+  --tagcloud-transition-ease: ease-out;
+  --tagcloud-bg-color-rgb: var(--background);
+  --tagcloud-animation-duration: 10s;
+  --tagcloud-animation-direction: normal;
+  --tagcloud-animation-play-state: running;
+  --tagcloud-diameter: #{px2rem(226px)};
+  --tagcloud-start-rotation: 54;
+  --tagcloud-controls-diameter: #{px2rem(280px)};
+  --tagcloud-control-bg-color: transparent;
+  --tagcloud-control-bg-hover-color: transparent;
+  --tagcloud-control-bg-checked-color: transparent;
+  --tag-diameter: #{px2rem(6px)};
+  --tag-font-color-rgb: 255, 255, 255;
+  --tag-font-family: 'Open Sans', sans-serif;
+  --tag-font-size: #{px2rem(14px)};
 }
 html.disable-scroll,
 html.disable-scroll body {

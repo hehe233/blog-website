@@ -96,6 +96,70 @@
   animation-name: fadeInUp
 }
 
+@-webkit-keyframes list_thumbnail_loading {
+  0% {
+      -webkit-transform: scale(.85);
+      transform: scale(.85)
+  }
+
+  to {
+      -webkit-transform: scale(1);
+      transform: scale(1)
+  }
+}
+
+@keyframes list_thumbnail_loading {
+  0% {
+      -webkit-transform: scale(.85);
+      transform: scale(.85)
+  }
+
+  to {
+      -webkit-transform: scale(1);
+      transform: scale(1)
+  }
+}
+
+@-webkit-keyframes list_title_loading {
+  0% {
+      width: 80%
+  }
+
+  to {
+      width: 95%
+  }
+}
+
+@keyframes list_title_loading {
+  0% {
+      width: 80%
+  }
+
+  to {
+      width: 95%
+  }
+}
+
+@-webkit-keyframes list_abstract_loading {
+  0% {
+      width: 60%
+  }
+
+  to {
+      width: 80%
+  }
+}
+
+@keyframes list_abstract_loading {
+  0% {
+      width: 60%
+  }
+
+  to {
+      width: 80%
+  }
+}
+
 .animated, [animated] {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;

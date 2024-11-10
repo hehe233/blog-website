@@ -33,6 +33,18 @@
     font-family: 'Font Awesome 6 Brands';
     font-weight: 400; }
 
+  @font-face {
+    font-family: 'Font Awesome 6 Pro Solid';
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url("../fonts/fa-solid-900.woff2") format("woff2"), url("../fonts/fa-solid-900.woff") format("woff"), url("../fonts/fa-solid-900.ttf") format("truetype"); }
+  
+  .fas,
+  .fa-solid {
+    font-family: 'Font Awesome 6 Pro Solid';
+    font-weight: 900; }
+
 .fa,
 .fas,
 .fa-solid,
@@ -350,6 +362,18 @@
 .fa-chain:before,
 .fa-link:before {
   content: '\f0c1';
+}
+
+.fa-layer-group:before {
+  content:"\f5fd";
+}
+
+.fa-brackets-curly:before {
+  content: "\f7ea"
+}
+
+.fa-books:before {
+  content: "\f5db"
 }
 
 .sr-only,

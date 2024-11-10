@@ -2,6 +2,8 @@
 .DS_Store
 *.local
 *.log*
+.yarn
+.yarnrc.yml
 
 # Dist
 node_modules

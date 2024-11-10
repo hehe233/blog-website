@@ -5,13 +5,13 @@
         width="100%"
         height="120"
         class="image"
-        src=""
+        src="@/assets/images/aside_pc.png"
         loading="lazy"
         alt="壁纸"
       />
       <div class="user">
         <div class="avatar_wrapper">
-          <img class="avatar" src="" loading="lazy" alt="头像" />
+          <img class="avatar" src="@/assets/images/avatar.jpg" loading="lazy" alt="头像" />
         </div>
         <a
           class="link"
@@ -27,16 +27,16 @@
         </p>
       </div>
       <div class="count">
-        <div class="item" :title="`累计分类数 ${state.categoriesNums}`">
-          <span class="num">{{ state.categoriesNums }}</span>
+        <div class="item" :title="`累计分类数 ${categoriesCount}`">
+          <span class="num">{{ categoriesCount }}</span>
           <span>分类数</span>
         </div>
-        <div class="item" :title="`累计标签数 ${state.tagsNums}`">
-          <span class="num">{{ state.tagsNums }}</span>
+        <div class="item" :title="`累计标签数 ${tagsCount}`">
+          <span class="num">{{ tagsCount }}</span>
           <span>标签数</span>
         </div>
-        <div class="item" :title="`累计文章数 ${state.articlesNums}`">
-          <span class="num">{{ state.articlesNums }}</span>
+        <div class="item" :title="`累计文章数 ${articlesCount}`">
+          <span class="num">{{ articlesCount }}</span>
           <span>文章数</span>
         </div>
       </div>
@@ -72,18 +72,18 @@
     </section>
     <section class="kur_aside__item newest">
       <div class="kur_aside__item-title">
-        <i class="kur-font iconfont icon-trending-content-22-01"></i>
+        <i class="kur-font iconfont fa-regular fa-books"></i>
         <span class="text">最新文章</span>
       </div>
       <div class="kur_aside__item-contain">
         <ul class="list">
           <li class="item">
             <a
-              v-for="article in state.articles"
+              v-for="article in stickyArticles"
               :key="article.id"
               :href="'/archives/' + article.attributes.drupal_internal__nid"
               class="link"
-              :title="article.title"
+              :title="article.attributes.title"
               >{{ article.attributes.title }}</a
             >
             <i class="kur-font iconfont fa-regular fa-link"></i>
@@ -91,74 +91,21 @@
         </ul>
       </div>
     </section>
+    <TagCloud :tags="allTagsList" />
   </aside>
 </template>
 
 <script lang="ts" setup>
 import { PersonInfo } from '@/config/info';
-import { reactive } from 'vue';
+import TagCloud from '@/components/TagCloud.vue';
+import { useMenuStore } from '@/stores';
+import { storeToRefs } from 'pinia';
 
-const state = reactive({
-  articles: [
-    {
-      "type": "node--article",
-      "id": "cd387eca-80e1-4baa-a5f1-1a96821a52ad",
-      "links": {
-          "self": {
-              "href": "http:\/\/localhost\/drupal\/jsonapi\/node\/article\/cd387eca-80e1-4baa-a5f1-1a96821a52ad?resourceVersion=id%3A5"
-          }
-      },
-      "attributes": {
-          "drupal_internal__nid": 1,
-          "title": "Drupal jsonapi \u521d\u7ea7\u5165\u95e8\u5b9e\u8df5"
-      }
-    }
-  ] as any[],
-  tags: [
-    {
-      "type": "taxonomy_term--tags",
-      "id": "fbea5020-4647-4b6d-9701-2d27eb6e6b22",
-      "links": {
-          "self": {
-              "href": "http:\/\/localhost\/drupal\/jsonapi\/taxonomy_term\/tags\/fbea5020-4647-4b6d-9701-2d27eb6e6b22?resourceVersion=id%3A6"
-          }
-      },
-      "attributes": {
-          "name": "drupal",
-          "path": {
-              "alias": "\/tags\/drupal",
-              "pid": 1,
-              "langcode": "zh-hans"
-          },
-          "field_color": "#ea5455"
-      }
-    },
-    {
-      "type": "taxonomy_term--tags",
-      "id": "2fa4da8b-5f5a-4b18-9a94-2b99703503bd",
-      "links": {
-          "self": {
-              "href": "http:\/\/localhost\/drupal\/jsonapi\/taxonomy_term\/tags\/2fa4da8b-5f5a-4b18-9a94-2b99703503bd?resourceVersion=id%3A5"
-          }
-      },
-      "attributes": {
-          "name": "javascript",
-          "path": {
-              "alias": "\/tags\/javascript",
-              "pid": 2,
-              "langcode": "zh-hans"
-          },
-          "field_color": "#49C628"
-      }
-    }
-  ] as any[],
-  articlesNums: 0,
-  tagsNums: 0,
-  categoriesNums: 0,
-});
+const menuStore = useMenuStore();
+const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles } = storeToRefs(menuStore);
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .kur_aside {
     padding-bottom: px2rem(15px);
     margin-left: px2rem(15px);
@@ -419,7 +366,7 @@ const state = reactive({
         @include display-flex-center;
 
         .kur-font {
-          margin-right: px2rem(5px);
+          margin-right: px2rem(10px);
           font-size: px2rem(20px);
           font-weight: 700;
           color: var(--theme);
@@ -429,6 +376,9 @@ const state = reactive({
         position: relative;
         padding: px2rem(15px);
       }
+    }
+    @media (max-width: 992px) {
+      display: none;
     }
   }
 </style>

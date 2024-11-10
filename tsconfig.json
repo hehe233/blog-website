@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
-    "lib": ["DOM", "ES2020", "dom.iterable"],
+    "lib": [
+      "esnext",
+      "esnext.asynciterable",
+      "dom",
+      "dom.iterable"
+    ],
     "jsx": "preserve",
     "target": "ES2020",
     "noEmit": true,
@@ -11,7 +16,7 @@
     "module": "ESNext",
     "isolatedModules": true,
     "resolveJsonModule": true,
-    "moduleResolution": "Bundler",
+    "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "allowSyntheticDefaultImports": true,
     "allowJs": true,
@@ -35,19 +40,29 @@
     "outDir": "dist",
     "baseUrl": ".",
     "paths": {
-      "@@/*": [
-        "server/*"
-      ],
       "@/*": ["./src/*"],
       "@images": ["./src/assets/images/*"]
-    }
+    },
+    "types": [
+      "@types/node",
+    ]
   },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "./env.d.ts"
+  ],
   "exclude": [
     "dist",
     "node_modules",
     "test",
     "public"
   ],
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "vueCompilerOptions": {
     "target": 3.5,
 

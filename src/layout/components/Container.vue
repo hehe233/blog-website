@@ -7,7 +7,6 @@
       <div :class="className">
         <slot />
       </div>
-      <div class="kur_load" v-if="props.viewName === 'home'">查看更多</div>
     </div>
     <Aside v-if="hasSideBar" />
   </div>
@@ -30,7 +29,7 @@ const hasSideBar = computed(() => {
 
 const className = computed(() => {
   return {
-    kur_index: ['home', 'archives', 'categories', 'tags'].includes(props.viewName),
+    kur_index: ['archives', 'categories', 'tags'].includes(props.viewName),
     kur_archives__filing: props.viewName === 'archives',
     kur_archive: props.viewName === 'search',
     kur_detail: [ 'journals', 'links', 'sheet' ].includes(props.viewName),
@@ -98,25 +97,5 @@ const className = computed(() => {
     border-radius: var(--radius-wrap);
     -webkit-box-shadow: var(--box-shadow);
     box-shadow: var(--box-shadow);
-  }
-  .kur_load {
-    position: relative;
-    z-index: 1;
-    margin: px2rem(15px) auto 0;
-    width: px2rem(120px);
-    height: px2rem(32px);
-    line-height: px2rem(32px);
-    text-align: center;
-    border-radius: px2rem(16px);
-    cursor: pointer;
-    background: var(--background);
-    -webkit-transition: -webkit-transform 0.25s;
-    transition: transform 0.25s;
-    transition: transform 0.25s, -webkit-transform 0.25s;
-    -webkit-box-shadow: var(--box-shadow);
-    box-shadow: var(--box-shadow);
-    &:hover {
-      color: var(--theme);
-    }
   }
 </style>

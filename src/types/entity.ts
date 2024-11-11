@@ -1,11 +1,9 @@
-export interface IRelationShipField {
-  data: {
-    id: string;
-    type: string;
-    meta: {
-      drupal_internal__target_id: number;
-    }
-  }[]
+export interface IRelationShipFieldData {
+  id: string;
+  type: string;
+  meta: {
+    drupal_internal__target_id: number;
+  }
 }
 export interface IArticle {
   id: string;
@@ -15,14 +13,20 @@ export interface IArticle {
     created: string;
     changed: string;
     drupal_internal__nid: number;
-    drupal_internal__vid: number;
+    // drupal_internal__vid: number;
+    sticky: boolean;
     body: {
       value: string;
+      summary: string;
     }
   },
   relationships: {
-    field_tags: IRelationShipField;
-    field_category: IRelationShipField;
+    field_tags: {
+      data: IRelationShipFieldData[];
+    };
+    field_category: {
+      data: IRelationShipFieldData;
+    };
   }
 }
 
@@ -48,5 +52,8 @@ export interface ICategory{
     revision_created: string;
     changed: string;
     description?: string;
+    field_image_link: {
+      uri: string;
+    } | null;
   }
 }

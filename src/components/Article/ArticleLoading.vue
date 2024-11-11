@@ -33,6 +33,8 @@
       width: 100%;
       padding: px2rem(15px) 0;
       border-bottom: 1px solid var(--classC);
+      position: relative;
+      @include display-flex;
       .thumbnail {
         -ms-flex-negative: 0;
         flex-shrink: 0;

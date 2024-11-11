@@ -28,7 +28,10 @@ export const useMenuStore = defineStore('menu', {
       state.allCategoriesList.reduce((map, category) => {
         return {
           ...map,
-          [category.attributes.drupal_internal__tid]: category.attributes.name
+          [category.attributes.drupal_internal__tid]: {
+            name: category.attributes.name,
+            url: category.attributes.field_image_link?.uri,
+          }
         }
       }, {})
     )

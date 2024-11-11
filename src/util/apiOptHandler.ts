@@ -8,7 +8,7 @@ export function filterGroupString(name: string, path: string, operator: string, 
 
 export function handlePageOption(query: string, options: BaseParams) {
   const { pageLimit, currentPage } = options;
-  return `${query}page[limit]=${pageLimit ?? 10}&page[offset]=${(currentPage ?? 1) - 1}&`;
+  return `${query}page[limit]=${pageLimit ?? 10}&page[offset]=${((currentPage ?? 1) - 1) * (pageLimit ?? 10)}&`;
 }
 
 export function handleSortsOption(query: string, sorts: string[] | undefined) {

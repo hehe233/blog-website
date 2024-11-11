@@ -13,15 +13,14 @@
         <div class="avatar_wrapper">
           <img class="avatar" src="@/assets/images/avatar.jpg" loading="lazy" alt="头像" />
         </div>
-        <a
+        <router-link to="/"
           class="link"
-          href="#"
           target="_blank"
           rel="noopener noreferrer nofollow"
           v-cloak
         >
           {{ PersonInfo.name }}
-        </a>
+        </router-link>
         <p class="motto kur_motto" v-cloak>
           {{ PersonInfo.motto }}
         </p>

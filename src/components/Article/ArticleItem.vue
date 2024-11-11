@@ -3,8 +3,8 @@
     class="kur_list__item default"
     need-animation
   >
-    <a
-      href="/archives/algorithm-templates-and-tricks"
+    <router-link
+      :to="`/archives/${props.article.attributes.drupal_internal__nid}`"
       class="thumbnail"
       :title="props.article.attributes.title"
       target="_blank"
@@ -20,29 +20,29 @@
       />
       <time datetime="2022-05-24">2022-05-24</time>
       <i class="kur-font iconfont"></i>
-    </a>
+    </router-link>
     <div class="information">
-      <a
-        href="/archives/algorithm-templates-and-tricks"
+      <router-link
+        :to="`/archives/${props.article.attributes.drupal_internal__nid}`"
         class="title"
         :title="props.article.attributes.title"
         target="_blank"
         rel="noopener noreferrer"
       >
-        <span class="badge" style="display: inline-block">置顶</span
-        >{{ props.article.attributes.title }}</a
-      >
-      <a
+        <span class="badge" style="display: inline-block" v-if="props.article.attributes.sticky">置顶</span>
+        {{ props.article.attributes.title }}
+      </router-link>
+      <router-link
+        :to="`/archives/${props.article.attributes.drupal_internal__nid}`"
         class="abstract"
         href="/archives/algorithm-templates-and-tricks"
         title="文章摘要"
         target="_blank"
         rel="noopener noreferrer"
-        >枚举、数据结构、栈、队列、堆、二分查找、双指针、差分、前缀和、单调栈、单调队列、哈希、离散化、字符串哈希、KMP算法、Trie树、数论、组合数、动态规划、树状数组、线段树……</a
-      >
+        >{{ props.article.attributes.body.summary }}</router-link>
       <div class="meta">
         <ul class="items">
-          <li>2022-05-24</li>
+          <li>{{ props.article.attributes.created?.split('T')?.[0]  }}</li>
         </ul>
         <ul class="categories">
           <li class="pcate">
@@ -51,7 +51,7 @@
               class="link"
               target="_blank"
               href="/categories/algorithm"
-              >算法</a>
+              >{{ (categoriesIdMap as any)[props.article.relationships.field_category.data.meta.drupal_internal__target_id]?.name || props.article.relationships.field_category.data.meta.drupal_internal__target_id }}</a>
           </li>
         </ul>
       </div>
@@ -62,6 +62,8 @@
 <script lang="ts" setup>
 import { IArticle } from '@/types';
 import { PropType } from 'vue';
+import { useMenuStore } from '@/stores';
+import { storeToRefs } from 'pinia';
 
 const props = defineProps({
   article: {
@@ -69,6 +71,9 @@ const props = defineProps({
     required: true,
   }
 });
+
+const menuStore = useMenuStore();
+const { categoriesIdMap } = storeToRefs(menuStore);
 </script>
 
 <style lang="scss" scoped>

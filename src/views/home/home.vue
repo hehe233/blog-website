@@ -14,7 +14,7 @@
       </div>
       <div class="kur_index__list">
         <div class="kur_list">
-          <ArticleItem v-for="article in state.articles" :key="article.id" :article="article"/>
+          <ArticleItem :urlPrefix="state.urlPrefix" v-for="article in state.articles" :key="article.id" :article="article"/>
         </div>
           <ArticleLoading v-show="state.isLoading" />
           <ArticleEmpty v-show="state.pagination.total"  />
@@ -54,6 +54,7 @@ const state = reactive({
   } as IPagination,
   activedTab: 1 as number,
   isLoading: false as boolean,
+  urlPrefix: '' as string,
 });
 
 const getArticleLists = async () => {
@@ -72,9 +73,11 @@ const getArticleLists = async () => {
   }
   try {
     state.isLoading = true;
-    const { data, meta } = await getArticleList(reqData);
+    const { data, meta, links } = await getArticleList(reqData);
     state.articles = state.articles.concat(data);
     state.pagination.total = meta?.count;
+    state.urlPrefix = links.self?.href?.split('/jsonapi')[0] || '';
+    console.log(state.urlPrefix)
   } catch (error) {
     console.error('[getArticleLists]', error);
   } finally {

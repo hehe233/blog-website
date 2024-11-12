@@ -13,7 +13,7 @@ export const useMenuStore = defineStore('menu', {
   }),
 
   getters: {
-    tagsIdMap: state => (
+    tagsIdMap: state => ((
       state.allTagsList.reduce((map, tag) => {
         return {
           ...map,
@@ -23,8 +23,11 @@ export const useMenuStore = defineStore('menu', {
           } 
         }
       }, {})
-    ),
-    categoriesIdMap: state => (
+    ) as {[key: number]: {
+      name: string,
+      url: string | undefined | null,
+    }}),
+    categoriesIdMap: state => ((
       state.allCategoriesList.reduce((map, category) => {
         return {
           ...map,
@@ -34,7 +37,10 @@ export const useMenuStore = defineStore('menu', {
           }
         }
       }, {})
-    )
+    ) as {[key: number]: {
+      name: string,
+      url: string | undefined | null,
+    }})
   },
 
   actions: {

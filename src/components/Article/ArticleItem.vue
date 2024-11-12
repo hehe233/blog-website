@@ -14,7 +14,7 @@
         width="100%"
         height="100%"
         class="ls-is-cached"
-        src="https://img.gabrielxd.top/blog/algorithm-tools-and-templates.jpg"
+        :src="thumbnailSrc"
         :alt="props.article.attributes.title"
         loading="lazy"
       />
@@ -35,7 +35,6 @@
       <router-link
         :to="`/archives/${props.article.attributes.drupal_internal__nid}`"
         class="abstract"
-        href="/archives/algorithm-templates-and-tricks"
         title="文章摘要"
         target="_blank"
         rel="noopener noreferrer"
@@ -47,11 +46,12 @@
         <ul class="categories">
           <li class="pcate">
             <i class="icon fa-regular fa-layer-group"></i>
-            <a
+            <router-link
               class="link"
               target="_blank"
-              href="/categories/algorithm"
-              >{{ (categoriesIdMap as any)[props.article.relationships.field_category.data.meta.drupal_internal__target_id]?.name || props.article.relationships.field_category.data.meta.drupal_internal__target_id }}</a>
+              to="/categories/algorithm"
+              >{{ categoriesIdMap[props.article.relationships.field_category.data.meta.drupal_internal__target_id]?.name || props.article.relationships.field_category.data.meta.drupal_internal__target_id }}
+            </router-link>
           </li>
         </ul>
       </div>
@@ -61,7 +61,7 @@
 
 <script lang="ts" setup>
 import { IArticle } from '@/types';
-import { PropType } from 'vue';
+import { computed, PropType } from 'vue';
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
@@ -69,11 +69,22 @@ const props = defineProps({
   article: {
     type: Object as PropType<IArticle>,
     required: true,
+  },
+  urlPrefix: {
+    type: String,
+    required: true,
   }
 });
 
 const menuStore = useMenuStore();
 const { categoriesIdMap } = storeToRefs(menuStore);
+
+const thumbnailSrc = computed(() => {
+  return `${props.urlPrefix}${(props.article.attributes.field_image_link?.uri
+      || categoriesIdMap.value?.[props.article.relationships.field_category.data.meta.drupal_internal__target_id].url
+      || ''
+      ).split('internal:')[1]}`
+});
 </script>
 
 <style lang="scss" scoped>

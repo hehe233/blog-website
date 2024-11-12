@@ -18,7 +18,10 @@ export interface IArticle {
     body: {
       value: string;
       summary: string;
-    }
+    };
+    field_image_link: {
+      uri: string;
+    } | null;
   },
   relationships: {
     field_tags: {

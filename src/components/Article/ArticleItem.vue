@@ -50,7 +50,7 @@
               class="link"
               target="_blank"
               to="/categories/algorithm"
-              >{{ categoriesIdMap[props.article.relationships.field_category.data.meta.drupal_internal__target_id]?.name || props.article.relationships.field_category.data.meta.drupal_internal__target_id }}
+              >{{ categoryName }}
             </router-link>
           </li>
         </ul>
@@ -79,12 +79,23 @@ const props = defineProps({
 const menuStore = useMenuStore();
 const { categoriesIdMap } = storeToRefs(menuStore);
 
+const categoryId = computed(() => {
+  return props.article.relationships.field_category.data.meta.drupal_internal__target_id;
+})
+
 const thumbnailSrc = computed(() => {
-  return `${props.urlPrefix}${(props.article.attributes.field_image_link?.uri
-      || categoriesIdMap.value?.[props.article.relationships.field_category.data.meta.drupal_internal__target_id].url
-      || ''
-      ).split('internal:')[1]}`
+  const suffixUrl = props.article.attributes.field_image_link?.uri
+    || categoriesIdMap.value?.[categoryId.value].url;
+  if (!suffixUrl) {
+    return '';
+  }
+  return `${props.urlPrefix}${suffixUrl.split('internal:')[1]}`
 });
+
+const categoryName = computed(() => {
+  return categoriesIdMap.value?.[categoryId.value]?.name
+    || categoryId.value
+})
 </script>
 
 <style lang="scss" scoped>

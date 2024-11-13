@@ -74,9 +74,9 @@ const getArticleLists = async () => {
   try {
     state.isLoading = true;
     const { data, meta, links } = await getArticleList(reqData);
-    state.articles = state.articles.concat(data);
+    state.articles = state.articles.concat(data ?? []);
     state.pagination.total = meta?.count;
-    state.urlPrefix = links.self?.href?.split('/jsonapi')[0] || '';
+    state.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
     console.log(state.urlPrefix)
   } catch (error) {
     console.error('[getArticleLists]', error);

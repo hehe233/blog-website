@@ -17,10 +17,10 @@
         <nav class="kur_header__above-nav" v-cloak>
           <template v-for="menu in menuTree" :key="menu.name">
             <router-link
-              :to="menu.path"
+              :to="`/${menu.path}`"
               class="item"
               :class="{
-                current: activedMenu === menu.path,
+                current: activedMenu === `/${menu.path}`,
               }"
               v-if="!menu.children?.length"
             >
@@ -40,12 +40,12 @@
             >
               <div class="kur_dropdown__link" v-cloak>
                 <router-link
-                  :to="menu.path"
+                  :to="`/${menu.path}`"
                   class="item"
                   :class="{
                     current:
-                      activedMenu === menu.path ||
-                      menu.children.findIndex((sub: RouteRecordRaw) => `${menu.path}/${sub.path}` === activedMenu) > -1,
+                      activedMenu === `/${menu.path}` ||
+                      menu.children.findIndex((sub: RouteRecordRaw) => `/${menu.path}/${sub.path}` === activedMenu) > -1,
                   }"
                 >
                 <i class="iconfont" :class="menu.meta?.icon"></i>
@@ -56,10 +56,10 @@
               <ul class="kur_dropdown__menu" style="top: 60px" v-cloak>
                 <li v-for="childMenu in menu.children" :key="childMenu.name">
                   <router-link
-                    :to="childMenu.path"
+                    :to="`/${menu.path}/${childMenu.path}`"
                     class="item"
                     :class="{
-                      current: `${menu.path}/${childMenu.path}` === activedMenu,
+                      current: `/${menu.path}/${childMenu.path}` === activedMenu,
                     }"
                   >
                     <i class="iconfont" :class="childMenu.meta?.icon"></i>
@@ -192,9 +192,9 @@
                   <router-link
                     class="link"
                     :class="{
-                      current: activedMenu === menu.path,
+                      current: activedMenu === `/${menu.path}`,
                     }"
-                    :to="menu.path"
+                    :to="`/${menu.path}`"
                     :title="menu.meta?.title"
                     >{{ menu.meta?.title }}
                   </router-link>
@@ -203,12 +203,12 @@
                   <div
                     class="link hasChild-body contentChild"
                     :class="{
-                      current: activedMenu === menu.path,
-                      in: menu.children.findIndex((sub: RouteRecordRaw) => `${menu.path}/${sub.path}` === activedMenu) > -1,
+                      current: activedMenu === `/${menu.path}`,
+                      in: menu.children.findIndex((sub: RouteRecordRaw) => `/${menu.path}/${sub.path}` === activedMenu) > -1,
                     }"
                     style="height: 40px"
                   >
-                    <router-link :to="menu.path" :title="menu.meta?.title">
+                    <router-link :to="`/${menu.path}`" :title="menu.meta?.title">
                       {{ menu.meta?.title }}
                     </router-link>
                     <div
@@ -230,9 +230,9 @@
                         <router-link
                           class="link"
                           :class="{
-                            current: `${menu.path}/${childMenu.path}` === activedMenu,
+                            current: `/${menu.path}/${childMenu.path}` === activedMenu,
                           }"
-                          :to="childMenu.path"
+                          :to="`/${menu.path}/${childMenu.path}`"
                           :title="childMenu.meta?.title"
                           >{{ childMenu.meta?.title }}</router-link
                         >
@@ -323,6 +323,8 @@ const activedMenu = computed(() => {
 const menuTree = computed(() => {
   return blogRouter.children?.filter(route => !route.meta?.hidden) || [];
 });
+
+console.log(menuTree.value, )
 
 const clickPESearchBtn = () => {
   state.isSearchoutFrameVisable = true;

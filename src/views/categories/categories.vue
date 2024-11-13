@@ -5,12 +5,12 @@
         <li class="item">全部分类<span class="totals">8</span></li>
       </ul>
     </div>
-    <div class="joe_index__hot">
-      <ul class="joe_index__hot-list animated fadeIn">
+    <div class="kur_index__hot">
+      <ul class="kur_index__hot-list animated fadeIn">
         <li class="item">
           <router-link class="link" to="/categories/reproduction" title="转载">
             <figure class="inner">
-              <img width="100%" height="120" class="image" src="https://img.gabrielxd.top/blog/cate-reproduction.jpg!widthlimited" alt="转载" loading="lazy">
+              <img width="100%" height="120" class="image" src="" alt="转载" loading="lazy">
               <figcaption class="title">转载</figcaption>
             </figure>
           </router-link>

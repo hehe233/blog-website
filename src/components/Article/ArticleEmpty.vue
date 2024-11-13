@@ -1,7 +1,7 @@
 <template>
   <div class="kur_empty hide">
     <svg
-      class="joe_empty-icon"
+      class="kur_empty-icon"
       viewBox="0 0 1024 1024"
       xmlns="http://www.w3.org/2000/svg"
       width="120"

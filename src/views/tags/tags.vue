@@ -6,7 +6,7 @@
       </ul>
     </div>
     <div class="kur_index__hot">
-      <ul class="joe_index__hot-list-tag animated fadeIn">
+      <ul class="kur_index__hot-list-tag animated fadeIn">
         <li class="item">
           <router-link class="link" to="/tags/construction" title="构造">
             <span title="构造">构造</span>

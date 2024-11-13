@@ -81,13 +81,13 @@ const { categoriesIdMap } = storeToRefs(menuStore);
 
 const categoryId = computed(() => {
   return props.article.relationships.field_category.data.meta.drupal_internal__target_id;
-})
+});
 
 const thumbnailSrc = computed(() => {
   const suffixUrl = props.article.attributes.field_image_link?.uri
     || categoriesIdMap.value?.[categoryId.value].url;
   if (!suffixUrl) {
-    return '';
+    return '/images/defaultThumbnail.png';
   }
   return `${props.urlPrefix}${suffixUrl.split('internal:')[1]}`
 });
@@ -95,7 +95,7 @@ const thumbnailSrc = computed(() => {
 const categoryName = computed(() => {
   return categoriesIdMap.value?.[categoryId.value]?.name
     || categoryId.value
-})
+});
 </script>
 
 <style lang="scss" scoped>

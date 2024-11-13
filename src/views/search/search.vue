@@ -2,7 +2,7 @@
   <div class="kur_index__search">
     <div class="kur_archive__title">
       <div class="kur_archive__title-title">
-        <i class="kur_archive__title-icon"></i>
+        <i class="kur_archive__title-icon fa-regular fa-magnifying-glass"></i>
         搜索到<span class="muted">10</span>条与
         <span class="muted">233</span>
         <span>相关的文章：</span>

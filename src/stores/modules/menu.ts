@@ -63,7 +63,7 @@ export const useMenuStore = defineStore('menu', {
         return this.allCategoriesList;
       } else {
         try {
-          const { data, meta } = await getAllCategoriesList(['name', 'field_image', 'drupal_internal__tid']);
+          const { data, meta } = await getAllCategoriesList(['name', 'field_image_link', 'drupal_internal__tid']);
           this.allCategoriesList = data;
           this.categoriesCount = meta?.count ?? 0;
         } catch (error) {

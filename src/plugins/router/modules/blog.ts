@@ -56,9 +56,9 @@ export default {
           meta: { title: '全部分类', icon: 'fa-regular fa-grid-2' },
         },
         {
-          path: 'project',
+          path: 'tags',
           component: () => import('@/views/tags/tags.vue'),
-          name: 'project',
+          name: 'tags',
           meta: { title: '全部标签', icon: 'fa-regular fa-tags' },
         },
       ]

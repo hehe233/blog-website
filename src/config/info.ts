@@ -5,3 +5,5 @@ export const PersonInfo = {
   bilibili: 'https://space.bilibili.com/294901972',
   matlto: '3172524612@qq.com',
 }
+
+export const DEFAULT_THUMBNAIL_URL = '/images/defaultThumbnail.png';

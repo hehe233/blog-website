@@ -1,5 +1,5 @@
 <template>
-  <ul class="kur_list__loading" style="display: none">
+  <ul class="kur_list__loading">
     <li class="item">
       <div class="thumbnail"></div>
       <div class="information">

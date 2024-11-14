@@ -64,6 +64,7 @@ import { IArticle } from '@/types';
 import { computed, PropType } from 'vue';
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
+import { DEFAULT_THUMBNAIL_URL } from '@/config/info';
 
 const props = defineProps({
   article: {
@@ -87,7 +88,7 @@ const thumbnailSrc = computed(() => {
   const suffixUrl = props.article.attributes.field_image_link?.uri
     || categoriesIdMap.value?.[categoryId.value].url;
   if (!suffixUrl) {
-    return '/images/defaultThumbnail.png';
+    return DEFAULT_THUMBNAIL_URL;
   }
   return `${props.urlPrefix}${suffixUrl.split('internal:')[1]}`
 });

@@ -2,26 +2,42 @@
   <div class="kur_index__categories">
     <div class="kur_index__title">
       <ul class="kur_index__title-title">
-        <li class="item">全部分类<span class="totals">8</span></li>
+        <li class="item">全部分类<span class="totals">{{ categoriesCount }}</span></li>
       </ul>
     </div>
     <div class="kur_index__hot">
       <ul class="kur_index__hot-list animated fadeIn">
-        <li class="item">
-          <router-link class="link" to="/categories/reproduction" title="转载">
+        <li class="item" v-for="category in allCategoriesList" :key="category.id">
+          <router-link class="link" :to="{path: '/search', query:{type: 'category', id: category.attributes.drupal_internal__tid}}" :title="category.attributes.name">
             <figure class="inner">
-              <img width="100%" height="120" class="image" src="" alt="转载" loading="lazy">
-              <figcaption class="title">转载</figcaption>
+              <img
+                width="100%"
+                height="120"
+                class="image"
+                :src="category.attributes.field_image_link?.uri 
+                  ? `${urlPrefix}${category.attributes.field_image_link.uri.split('internal:')[1]}`
+                  : DEFAULT_THUMBNAIL_URL"
+                :alt="category.attributes.name"
+                loading="lazy"
+              />
+              <figcaption class="title">{{ category.attributes.name }}</figcaption>
             </figure>
           </router-link>
         </li>
       </ul>
+      <ArticleEmpty v-show="!categoriesCount"  />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useMenuStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import { DEFAULT_THUMBNAIL_URL } from '@/config/info';
+import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
+const menuStore = useMenuStore();
+const { categoriesCount, allCategoriesList,urlPrefix } = storeToRefs(menuStore);
 </script>
 
 <style lang="scss" scoped>

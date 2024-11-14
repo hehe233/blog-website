@@ -10,6 +10,7 @@ export const useMenuStore = defineStore('menu', {
     categoriesCount: 0 as number,
     articlesCount: 0 as number,
     stickyArticles: [] as IArticle[],
+    urlPrefix: '' as string,
   }),
 
   getters: {
@@ -63,9 +64,10 @@ export const useMenuStore = defineStore('menu', {
         return this.allCategoriesList;
       } else {
         try {
-          const { data, meta } = await getAllCategoriesList(['name', 'field_image_link', 'drupal_internal__tid']);
+          const { data, meta, links } = await getAllCategoriesList(['name', 'field_image_link', 'drupal_internal__tid']);
           this.allCategoriesList = data;
           this.categoriesCount = meta?.count ?? 0;
+          this.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
         } catch (error) {
           console.error('[initCategoriesData]', error);
         }

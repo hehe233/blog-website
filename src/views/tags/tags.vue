@@ -2,23 +2,29 @@
   <div class="kur_index__categories">
     <div class="kur_index__title">
       <ul class="kur_index__title-title">
-        <li class="item">全部分类<span class="totals">8</span></li>
+        <li class="item">全部分类<span class="totals">{{ tagsCount }}</span></li>
       </ul>
     </div>
     <div class="kur_index__hot">
       <ul class="kur_index__hot-list-tag animated fadeIn">
-        <li class="item">
-          <router-link class="link" to="/tags/construction" title="构造">
-            <span title="构造">构造</span>
+        <li class="item" v-for="tag in allTagsList" :key="tag.id">
+          <router-link class="link" :to="{path: '/search', query:{type: 'tag', id: tag.attributes.drupal_internal__tid}}" :title="tag.attributes.name">
+            <span :title="tag.attributes.name">{{ tag.attributes.name }}</span>
           </router-link>
         </li>
       </ul>
+      <ArticleEmpty v-show="!tagsCount"  />
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useMenuStore } from '@/stores';
+import { storeToRefs } from 'pinia';
+import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
+const menuStore = useMenuStore();
+const { tagsCount, allTagsList } = storeToRefs(menuStore);
 </script>
 
 <style lang="scss">

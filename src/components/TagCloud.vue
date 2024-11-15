@@ -36,14 +36,14 @@
         </div>
         <p class="kur_loading" v-if="loading"><i class="fa-regular fa-spinner fa-spin"></i></p>
       </div>
-      <ArticleEmpty v-if="!props.tags.length && !loading"  />
+      <Empty v-if="!props.tags.length && !loading"  />
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { computed, PropType } from 'vue';
-import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+import Empty from '@/components/Empty.vue';
 
 const props = defineProps({
   tags: {

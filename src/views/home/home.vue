@@ -17,7 +17,7 @@
           <ArticleItem :urlPrefix="state.urlPrefix" v-for="article in state.articles" :key="article.id" :article="article"/>
         </div>
           <ArticleLoading v-show="state.isLoading" />
-          <ArticleEmpty v-show="!state.pagination.total && !state.isLoading"  />
+          <Empty v-show="!state.pagination.total && !state.isLoading"  />
       </div>
     </div>
   </div>
@@ -32,7 +32,7 @@ import { ArticleParams, IArticle, IPagination } from '@/types';
 
 import ArticleItem from '@/components/Article/ArticleItem.vue';
 import ArticleLoading from '@/components/Article/ArticleLoading.vue';
-import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+import Empty from '@/components/Empty.vue';
 
 const tabs = [
   {

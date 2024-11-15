@@ -26,7 +26,7 @@
         </li>
       </ul>
       <p class="kur_loading" v-if="loadingCategories"><i class="fa-regular fa-spinner fa-spin"></i></p>
-      <ArticleEmpty v-show="!categoriesCount && !loadingCategories"  />
+      <Empty v-show="!categoriesCount && !loadingCategories"  />
     </div>
   </div>
 </template>
@@ -35,7 +35,7 @@
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 import { DEFAULT_THUMBNAIL_URL } from '@/config/info';
-import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+import Empty from '@/components/Empty.vue';
 
 const menuStore = useMenuStore();
 const { categoriesCount, allCategoriesList, loadingCategories, urlPrefix } = storeToRefs(menuStore);

@@ -275,7 +275,7 @@
             </li>
           </ul>
           <p class="kur_loading" v-if="loadingTags"><i class="fa-regular fa-spinner fa-spin"></i></p>
-          <ArticleEmpty v-show="!tagsCount && !loadingTags"  />
+          <Empty v-show="!tagsCount && !loadingTags"  />
         </div>
       </div>
     </div>
@@ -295,7 +295,7 @@ import { blogRouter } from '@/plugins/router/index.ts';
 import { PersonInfo } from '@/config/info';
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+import Empty from '@/components/Empty.vue';
 
 const route = useRoute();
 const router = useRouter();

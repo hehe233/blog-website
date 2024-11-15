@@ -24,7 +24,7 @@
       <ArticleItem :urlPrefix="state.urlPrefix" v-for="article in state.articles" :key="article.id" :article="article"/>
     </ul>
     <ArticleLoading v-show="state.isLoading" />
-    <ArticleEmpty v-show="!state.pagination.total && !state.isLoading"  />
+    <Empty v-show="!state.pagination.total && !state.isLoading"  />
     <ul class="kur_pagination" v-show="state.pagination.total">
       <li class="prev" :class="{disabled: state.pagination.currentPage <= 1}">
         <div>
@@ -52,13 +52,14 @@
 import { useMenuStore } from '@/stores';
 import { ArticleParams, IArticle, IPagination } from '@/types';
 import { storeToRefs } from 'pinia';
-import { computed, onMounted, reactive } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, reactive, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { getArticleList } from '@/api/node';
+import { BounceInUp } from '@/util/animation';
 
 import ArticleItem from '@/components/Article/ArticleItem.vue';
 import ArticleLoading from '@/components/Article/ArticleLoading.vue';
-import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+import Empty from '@/components/Empty.vue';
 
 const route = useRoute();
 const state = reactive({
@@ -123,11 +124,20 @@ const onClickPageBtn = (index: number) => {
   fetchArticles();
 }
 
+watch(() => state.articles, () => {
+  nextTick(() => BounceInUp.onScroll());
+});
+
 onMounted(() => {
+  BounceInUp.init();
   state.type = route.query.type?.toString();
   state.id = Number(route.query.id);
   state.keyword = route.query.keyword?.toString();
   fetchArticles();
+});
+
+onUnmounted(() => {
+  BounceInUp.destroy();
 });
 </script>
 

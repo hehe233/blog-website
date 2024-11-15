@@ -87,7 +87,7 @@
             <i class="kur-font iconfont fa-regular fa-link"></i>
           </li>
           <p class="kur_loading" v-if="loadingCategories"><i class="fa-regular fa-spinner fa-spin"></i></p>
-          <ArticleEmpty v-if="!stickyArticles.length && !loadingCategories"  />
+          <Empty v-if="!stickyArticles.length && !loadingCategories"  />
         </ul>
       </div>
     </section>
@@ -101,7 +101,7 @@ import TagCloud from '@/components/TagCloud.vue';
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
-import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+import Empty from '@/components/Empty.vue';
 
 const menuStore = useMenuStore();
 const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles, loadingTags, loadingCategories } = storeToRefs(menuStore);

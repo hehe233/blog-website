@@ -11,6 +11,9 @@ export const useMenuStore = defineStore('menu', {
     articlesCount: 0 as number,
     stickyArticles: [] as IArticle[],
     urlPrefix: '' as string,
+    loadingTags: false as boolean,
+    loadingCategories: false as boolean,
+    loadingStickyArticles: false as boolean,
   }),
 
   getters: {
@@ -49,12 +52,15 @@ export const useMenuStore = defineStore('menu', {
       if (this.allTagsList.length && !refresh) {
         return this.allTagsList;
       } else {
+        this.loadingTags = true;
         try {
           const { data, meta } = await getAllTagsList(['name','field_color','drupal_internal__tid']);
           this.allTagsList = data;
           this.tagsCount = meta?.count ?? 0;
         } catch (error) {
           console.error('[initTagData]', error);
+        } finally {
+          this.loadingTags = false;
         }
       }
     },
@@ -63,6 +69,7 @@ export const useMenuStore = defineStore('menu', {
       if (this.allCategoriesList.length && !refresh) {
         return this.allCategoriesList;
       } else {
+        this.loadingCategories = true;
         try {
           const { data, meta, links } = await getAllCategoriesList(['name', 'field_image_link', 'drupal_internal__tid']);
           this.allCategoriesList = data;
@@ -70,6 +77,8 @@ export const useMenuStore = defineStore('menu', {
           this.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
         } catch (error) {
           console.error('[initCategoriesData]', error);
+        } finally {
+          this.loadingCategories = false;
         }
       }
     },
@@ -78,6 +87,7 @@ export const useMenuStore = defineStore('menu', {
       if (this.articlesCount &&!refresh) {
         return this.articlesCount;
       } else {
+        this.loadingStickyArticles = true;
         try {
           const { meta } = await getArticleList({
             pageLimit: 1,
@@ -89,6 +99,8 @@ export const useMenuStore = defineStore('menu', {
           this.articlesCount = meta?.count ?? 0;
         } catch (error) {
           console.error('[initArticlesCount]', error);
+        } finally {
+          this.loadingStickyArticles = false;
         }
       }
     },

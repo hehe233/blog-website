@@ -384,6 +384,10 @@
   content: "\f340"
 }
 
+.fa-spinner:before {
+  content: '\f110';
+}
+
 .sr-only,
 .fa-sr-only {
   position: absolute;

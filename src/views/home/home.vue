@@ -17,7 +17,7 @@
           <ArticleItem :urlPrefix="state.urlPrefix" v-for="article in state.articles" :key="article.id" :article="article"/>
         </div>
           <ArticleLoading v-show="state.isLoading" />
-          <ArticleEmpty v-show="state.pagination.total"  />
+          <ArticleEmpty v-show="!state.pagination.total && !state.isLoading"  />
       </div>
     </div>
   </div>
@@ -27,12 +27,12 @@
 <script lang="ts" setup>
 import { BounceInUp } from '@/util/animation';
 import { nextTick, onMounted, onUnmounted, reactive, watch } from 'vue';
+import { getArticleList } from '@/api/node';
+import { ArticleParams, IArticle, IPagination } from '@/types';
 
 import ArticleItem from '@/components/Article/ArticleItem.vue';
 import ArticleLoading from '@/components/Article/ArticleLoading.vue';
 import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
-import { getArticleList } from '@/api/node';
-import { ArticleParams, IArticle, IPagination } from '@/types';
 
 const tabs = [
   {

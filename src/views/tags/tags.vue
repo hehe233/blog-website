@@ -2,18 +2,19 @@
   <div class="kur_index__categories">
     <div class="kur_index__title">
       <ul class="kur_index__title-title">
-        <li class="item">全部分类<span class="totals">{{ tagsCount }}</span></li>
+        <li class="item">全部标签<span class="totals">{{ tagsCount }}</span></li>
       </ul>
     </div>
     <div class="kur_index__hot">
-      <ul class="kur_index__hot-list-tag animated fadeIn">
+      <ul class="kur_index__hot-list-tag animated fadeIn" v-if="tagsCount">
         <li class="item" v-for="tag in allTagsList" :key="tag.id">
           <router-link class="link" :to="{path: '/search', query:{type: 'tag', id: tag.attributes.drupal_internal__tid}}" :title="tag.attributes.name">
             <span :title="tag.attributes.name">{{ tag.attributes.name }}</span>
           </router-link>
         </li>
       </ul>
-      <ArticleEmpty v-show="!tagsCount"  />
+      <p class="kur_loading" v-if="loadingTags"><i class="fa-regular fa-spinner fa-spin"></i></p>
+      <ArticleEmpty v-show="!tagsCount && !loadingTags"  />
     </div>
   </div>
 </template>
@@ -24,7 +25,7 @@ import { storeToRefs } from 'pinia';
 import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
 const menuStore = useMenuStore();
-const { tagsCount, allTagsList } = storeToRefs(menuStore);
+const { tagsCount, allTagsList, loadingTags } = storeToRefs(menuStore);
 </script>
 
 <style lang="scss">
@@ -107,6 +108,12 @@ const { tagsCount, allTagsList } = storeToRefs(menuStore);
             }
           }
         }
+      }
+      .kur_loading {
+        padding: px2rem(24px) 0;
+        font-size: px2rem(24px);
+        text-align: center;
+        color: var(--routine);
       }
     }
   }

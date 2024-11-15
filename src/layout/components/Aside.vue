@@ -76,21 +76,22 @@
       </div>
       <div class="kur_aside__item-contain">
         <ul class="list">
-          <li class="item">
-            <a
-              v-for="article in stickyArticles"
-              :key="article.id"
-              :href="'/archives/' + article.attributes.drupal_internal__nid"
+          <li class="item" v-for="article in stickyArticles" :key="article.id">
+            <router-link
+              :to="`/archives/${article.attributes.drupal_internal__nid}`"
               class="link"
               :title="article.attributes.title"
-              >{{ article.attributes.title }}</a
             >
+              {{ article.attributes.title }}
+            </router-link>
             <i class="kur-font iconfont fa-regular fa-link"></i>
           </li>
+          <p class="kur_loading" v-if="loadingCategories"><i class="fa-regular fa-spinner fa-spin"></i></p>
+          <ArticleEmpty v-if="!stickyArticles.length && !loadingCategories"  />
         </ul>
       </div>
     </section>
-    <TagCloud :tags="allTagsList" />
+    <TagCloud :tags="allTagsList" :loading="loadingTags" />
   </aside>
 </template>
 
@@ -100,8 +101,10 @@ import TagCloud from '@/components/TagCloud.vue';
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 
+import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
+
 const menuStore = useMenuStore();
-const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles } = storeToRefs(menuStore);
+const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles, loadingTags, loadingCategories } = storeToRefs(menuStore);
 </script>
 
 <style lang="scss">
@@ -350,6 +353,11 @@ const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles }
             &:last-child {
               margin-bottom: 0;
             }
+          }
+          .kur_loading {
+            font-size: px2rem(24px);
+            text-align: center;
+            color: var(--routine);
           }
         }
       }

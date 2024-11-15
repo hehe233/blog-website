@@ -70,19 +70,18 @@
             </div>
           </template>
         </nav>
-        <form class="kur_header__above-search" method="get" action="/search">
+        <div class="kur_header__above-search">
           <input
             maxlength="16"
             autocomplete="off"
             placeholder="请输入关键字..."
-            name="keyword"
-            value=""
+            v-model="state.searchInput"
             class="input"
             type="text"
             @focusin="showResultFrame"
             @focusout="hideResultFrame"
           />
-          <button type="submit" class="submit" aria-label="搜索按钮">
+          <button class="submit" @click="onClickSearchBtn">
             <i class="iconfont fa-regular fa-magnifying-glass submit-search"></i>
           </button>
           <span class="icon"></span>
@@ -94,18 +93,18 @@
             ref="navResult"
             v-cloak
           >
-            <a
+            <router-link
               v-for="(article, index) in stickyArticles"
               :key="article.id"
-              :href="'/archives/' + article.attributes.drupal_internal__nid"
+              :to="`/archives/${article.attributes.drupal_internal__nid}`"
               :title="article.attributes.title"
               class="item"
             >
               <span class="sort">{{ index + 1 }}</span>
               <span class="text">{{ article.attributes.title }}</span>
-            </a>
+            </router-link>
           </nav>
-        </form>
+        </div>
         <i
           class="iconfont fa-regular fa-magnifying-glass kur_header__above-searchicon"
           @click="clickPESearchBtn"></i>
@@ -218,10 +217,7 @@
                     />
                   </div>
                   <Collapse :when="state.activedCollapseSubMenu === menu.name?.toString()">
-                    <ul
-                      class="slides subdirectory contentChild"
-                      style="height: 40px"
-                    >
+                    <ul class="slides subdirectory contentChild">
                       <li
                         v-for="childMenu in menu.children"
                         :key="childMenu.name"
@@ -253,35 +249,33 @@
     >
       <div class="kur_container">
         <div class="kur_header__searchout-inner">
-          <form
-            class="kur_header__above-search-mobile"
-            method="get"
-            action="/search"
-          >
+          <div class="kur_header__above-search-mobile">
             <input
               maxlength="16"
               autocomplete="off"
               placeholder="请输入关键字..."
-              name="keyword"
-              value=""
+              v-model="state.searchInput"
               class="input"
               type="text"
             />
-            <button type="submit" class="submit">搜索</button>
-          </form>
+            <button class="submit" @click="onClickSearchBtn">搜索</button>
+          </div>
           <div class="title">
             <i class="iconfont fa-regular fa-cloud kur-font"></i>标签搜索
           </div>
           <ul class="tags">
             <li class="item" v-for="tag in allTagsList" :key="tag.id" v-cloak>
-              <a
+              <router-link
                 :style="{ background: tag.attributes.field_color }"
-                href=""
+                :to="{path: '/search', query:{type: 'tag', id: tag.attributes.drupal_internal__tid}}"
                 :title="tag.attributes.name"
-                >{{ tag.attributes.name }}</a
               >
+                {{ tag.attributes.name }}
+              </router-link>
             </li>
           </ul>
+          <p class="kur_loading" v-if="loadingTags"><i class="fa-regular fa-spinner fa-spin"></i></p>
+          <ArticleEmpty v-show="!tagsCount && !loadingTags"  />
         </div>
       </div>
     </div>
@@ -295,14 +289,16 @@
 
 <script lang="ts" setup>
 import { computed, onMounted, onUnmounted, reactive } from 'vue';
-import { RouteRecordRaw, useRoute } from 'vue-router';
+import { RouteRecordRaw, useRoute, useRouter } from 'vue-router';
 import { Collapse } from 'vue-collapsed';
 import { blogRouter } from '@/plugins/router/index.ts';
 import { PersonInfo } from '@/config/info';
 import { useMenuStore } from '@/stores';
 import { storeToRefs } from 'pinia';
+import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
 const route = useRoute();
+const router = useRouter();
 
 const state = reactive({
   activedDropFrameMenu: undefined  as undefined | string, // PC端下拉二级菜单
@@ -312,12 +308,13 @@ const state = reactive({
   isSearchoutFrameVisable: false, // 移动端搜索下拉栏
   isExpandedPEMenu: false, // 移动端侧边栏菜单
   isScrollUp: true, // 是否往上滑
-  scrollTimer: 0,
-  preScroll: 0,
+  scrollTimer: 0, // 滚动条滑动计时器
+  preScroll: 0, // 上一次滑动距顶部距离
+  searchInput: '',
 });
 
 const menuStore = useMenuStore();
-const { tagsCount, allTagsList, categoriesCount, articlesCount, stickyArticles } = storeToRefs(menuStore);
+const { tagsCount, allTagsList, loadingTags, categoriesCount, articlesCount, stickyArticles } = storeToRefs(menuStore);
 
 const activedMenu = computed(() => {
   return route.path;
@@ -368,6 +365,15 @@ const hideDropFrame = () => {
 const onCancelPESildeOut = () => {
   state.isSearchoutFrameVisable = false;
   state.isSildeOutVisable = false;
+}
+
+const onClickSearchBtn = () => {
+  if (state.searchInput?.trim().length) {
+    router.push({
+      path: '/search',
+      query: { type: 'search', keyword: state.searchInput },
+    });
+  }
 }
 
 const setShowHeader = () => {
@@ -1197,6 +1203,12 @@ onUnmounted(() => {
             color: #fff;
           }
         }
+      }
+      .kur_loading {
+        padding: px2rem(10px) 0;
+        font-size: px2rem(24px);
+        text-align: center;
+        color: var(--routine);
       }
     }
   }

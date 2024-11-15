@@ -6,7 +6,7 @@
       </ul>
     </div>
     <div class="kur_index__hot">
-      <ul class="kur_index__hot-list animated fadeIn">
+      <ul class="kur_index__hot-list animated fadeIn" v-if="categoriesCount">
         <li class="item" v-for="category in allCategoriesList" :key="category.id">
           <router-link class="link" :to="{path: '/search', query:{type: 'category', id: category.attributes.drupal_internal__tid}}" :title="category.attributes.name">
             <figure class="inner">
@@ -25,7 +25,8 @@
           </router-link>
         </li>
       </ul>
-      <ArticleEmpty v-show="!categoriesCount"  />
+      <p class="kur_loading" v-if="loadingCategories"><i class="fa-regular fa-spinner fa-spin"></i></p>
+      <ArticleEmpty v-show="!categoriesCount && !loadingCategories"  />
     </div>
   </div>
 </template>
@@ -37,7 +38,7 @@ import { DEFAULT_THUMBNAIL_URL } from '@/config/info';
 import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
 const menuStore = useMenuStore();
-const { categoriesCount, allCategoriesList,urlPrefix } = storeToRefs(menuStore);
+const { categoriesCount, allCategoriesList, loadingCategories, urlPrefix } = storeToRefs(menuStore);
 </script>
 
 <style lang="scss" scoped>
@@ -129,6 +130,12 @@ const { categoriesCount, allCategoriesList,urlPrefix } = storeToRefs(menuStore);
             }
           }
         }
+      }
+      .kur_loading {
+        padding: px2rem(24px) 0;
+        font-size: px2rem(24px);
+        text-align: center;
+        color: var(--routine);
       }
     }
   }

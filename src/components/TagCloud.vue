@@ -3,46 +3,56 @@
     <div class="kur_aside__item-title">
       <i class="kur-font iconfont fa-regular fa-tag"></i>
       <span class="text">标签云</span>
-      <a class="tags_more" href="">更多 »</a>
+      <router-link to="/archives/tags" class="tags_more">更多 »</router-link>
     </div>
     <div class="kur_aside__item-contain">
-      <div class="tagcloud-wrapper">
+      <div class="tagcloud-wrapper" v-show="props.tags.length || loading">
         <div class="tagcloud-controls" :style="`--num-elements: ${shortTags.length}`">
           <div
             v-for="(tag, index) in shortTags"
             :key="tag.id"
             class="tagcloud-control-button"
             :style="`--index: ${index + 1}`"
-          ><input type="radio" name="tagcloud-control-input"></div>
-        <div class="tagcloud-rotation">
-          <ul class="tagcloud-tags" :style="`--num-elements: ${props.tags.length}`">
-            <li
-              v-for="(tag, index) in props.tags"
-              :key="tag.id"
-              class="tagcloud-tag"
-              :style="`--index: ${index + 1}`"
-            >
-              <div>
-                <a href="#" :style="{color: tag.attributes.field_color, cursor: 'pointer'}">{{ tag.attributes.name }}</a>
-              </div>
-            </li>
-          </ul>
-    </div>
-
-</div>
-
-</div>
+          >
+            <input type="radio" name="tagcloud-control-input">
+          </div>
+          <div class="tagcloud-rotation">
+            <ul class="tagcloud-tags" :style="`--num-elements: ${props.tags.length}`">
+              <li
+                v-for="(tag, index) in props.tags"
+                :key="tag.id"
+                class="tagcloud-tag"
+                :style="`--index: ${index + 1}`"
+              >
+                <div>
+                  <router-link
+                    :to="{path: '/search', query:{type: 'tag', id: tag.attributes.drupal_internal__tid}}"
+                    :style="{color: tag.attributes.field_color, cursor: 'pointer'}"
+                  >{{ tag.attributes.name }}</router-link>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <p class="kur_loading" v-if="loading"><i class="fa-regular fa-spinner fa-spin"></i></p>
+      </div>
+      <ArticleEmpty v-if="!props.tags.length && !loading"  />
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
 import { computed, PropType } from 'vue';
+import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
 const props = defineProps({
   tags: {
     type: Array as PropType<any[]>,
     default: () => [],
+  },
+  loading: {
+    type: Boolean,
+    default: false,
   }
 });
 
@@ -89,6 +99,15 @@ const shortTags = computed(() => {
     aspect-ratio: 1 / 1;
     font-family: var(--tag-font-family);
     font-size: var(--tag-font-size);
+    .kur_loading {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: px2rem(24px);
+      text-align: center;
+      color: var(--routine);
+    }
   }
 
   .tagcloud-wrapper:has(.tagcloud-rotation:hover)  {

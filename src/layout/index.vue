@@ -4,6 +4,8 @@
     <Container :viewName="viewName">
       <router-view></router-view>
     </Container>
+    <Footer></Footer>
+    <Action></Action>
   </div>
 </template>
 
@@ -13,6 +15,8 @@ import { useRoute } from 'vue-router';
 
 import Header from './components/Header.vue';
 import Container from './components/Container.vue';
+import Footer from './components/Footer.vue';
+import Action from './components/Action.vue';
 
 const route = useRoute();
 

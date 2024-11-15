@@ -1,6 +1,6 @@
 <template>
   <header class="kur_header">
-    <div class="kur_header__above topInDown" ref="menuAbove">
+    <div class="kur_header__above topInDown" :class="{actived: !state.isScrollUp}" ref="menuAbove">
       <div class="kur_container kur_header__above-container">
         <i
           class="iconfont fa-regular fa-bars kur_header__above-slideicon"
@@ -294,7 +294,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, reactive } from 'vue';
+import { computed, onMounted, onUnmounted, reactive } from 'vue';
 import { RouteRecordRaw, useRoute } from 'vue-router';
 import { Collapse } from 'vue-collapsed';
 import { blogRouter } from '@/plugins/router/index.ts';
@@ -311,6 +311,9 @@ const state = reactive({
   isResultFrameVisable: false, // PC端搜索热点展示
   isSearchoutFrameVisable: false, // 移动端搜索下拉栏
   isExpandedPEMenu: false, // 移动端侧边栏菜单
+  isScrollUp: true, // 是否往上滑
+  scrollTimer: 0,
+  preScroll: 0,
 });
 
 const menuStore = useMenuStore();
@@ -323,8 +326,6 @@ const activedMenu = computed(() => {
 const menuTree = computed(() => {
   return blogRouter.children?.filter(route => !route.meta?.hidden) || [];
 });
-
-console.log(menuTree.value, )
 
 const clickPESearchBtn = () => {
   state.isSearchoutFrameVisable = true;
@@ -368,6 +369,30 @@ const onCancelPESildeOut = () => {
   state.isSearchoutFrameVisable = false;
   state.isSildeOutVisable = false;
 }
+
+const setShowHeader = () => {
+  const currentScroll = document.documentElement.scrollTop || document.body.scrollTop;
+  if (currentScroll > state.preScroll) {
+    state.isScrollUp = false;
+    state.preScroll = currentScroll;
+  } else {
+    state.isScrollUp = true;
+    state.preScroll = currentScroll;
+  }
+}
+
+const onScroll = () =>{
+  state.scrollTimer && window.clearTimeout(state.scrollTimer);
+  state.scrollTimer = window.setTimeout(setShowHeader, 20);
+}
+
+onMounted(() => {
+  document.addEventListener('scroll', onScroll);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('scroll', onScroll);
+});
 </script>
 
 <style lang="scss" scoped>

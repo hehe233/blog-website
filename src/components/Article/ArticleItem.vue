@@ -49,7 +49,7 @@
             <router-link
               class="link"
               target="_blank"
-              to="/categories/algorithm"
+              :to="{path: '/search', query:{type: 'category', id: categoryId}}"
               >{{ categoryName }}
             </router-link>
           </li>

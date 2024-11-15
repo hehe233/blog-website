@@ -1,6 +1,7 @@
 import { getAllCategoriesList, getAllTagsList, getArticleList } from '@/api/node';
 import { IArticle, ICategory, ITag } from '@/types';
 import { defineStore } from 'pinia';
+import Message from '@/plugins/message/message';
 
 export const useMenuStore = defineStore('menu', {
   state: () => ({
@@ -13,7 +14,6 @@ export const useMenuStore = defineStore('menu', {
     urlPrefix: '' as string,
     loadingTags: false as boolean,
     loadingCategories: false as boolean,
-    loadingStickyArticles: false as boolean,
   }),
 
   getters: {
@@ -57,7 +57,8 @@ export const useMenuStore = defineStore('menu', {
           const { data, meta } = await getAllTagsList(['name','field_color','drupal_internal__tid']);
           this.allTagsList = data;
           this.tagsCount = meta?.count ?? 0;
-        } catch (error) {
+        } catch (error: any) {
+          Message.error('加载标签失败: ' + error.message || error.toString());
           console.error('[initTagData]', error);
         } finally {
           this.loadingTags = false;
@@ -75,7 +76,8 @@ export const useMenuStore = defineStore('menu', {
           this.allCategoriesList = data;
           this.categoriesCount = meta?.count ?? 0;
           this.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
-        } catch (error) {
+        } catch (error: any) {
+          Message.error('加载分类失败: ' + error.message || error.toString());
           console.error('[initCategoriesData]', error);
         } finally {
           this.loadingCategories = false;
@@ -87,7 +89,6 @@ export const useMenuStore = defineStore('menu', {
       if (this.articlesCount &&!refresh) {
         return this.articlesCount;
       } else {
-        this.loadingStickyArticles = true;
         try {
           const { meta } = await getArticleList({
             pageLimit: 1,
@@ -97,10 +98,9 @@ export const useMenuStore = defineStore('menu', {
             }
           });
           this.articlesCount = meta?.count ?? 0;
-        } catch (error) {
+        } catch (error: any) {
+          Message.error('加载文章总数失败: ' + error.message || error.toString());
           console.error('[initArticlesCount]', error);
-        } finally {
-          this.loadingStickyArticles = false;
         }
       }
     },
@@ -119,7 +119,8 @@ export const useMenuStore = defineStore('menu', {
             }
           });
           this.stickyArticles = data;
-        } catch (error) {
+        } catch (error: any) {
+          Message.error('加载文章失败: ' + error.message || error.toString());
           console.error('[initArticlesCount]', error);
         }
       }

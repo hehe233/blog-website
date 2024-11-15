@@ -10,12 +10,12 @@
         </template>
         <template v-else-if="state.type === 'tag'">
           <i class="kur_archive__title-icon fa-regular fa-feather"></i>以下是
-          <span class="muted ellipsis">{{ state.id ? tagsIdMap?.[state.id] ?? state.id  : undefined }}</span>
+          <span class="muted ellipsis">{{ state.id ? tagsIdMap?.[state.id]?.name ?? state.id  : undefined }}</span>
           <span>相关的文章</span>
         </template>
         <template v-else-if="state.type === 'category'">
           <i class="kur_archive__title-icon fa-regular fa-feather"></i>以下是
-          <span class="muted ellipsis">{{ state.id ? categoriesIdMap?.[state.id] ?? state.id : undefined }}</span>
+          <span class="muted ellipsis">{{ state.id ? categoriesIdMap?.[state.id]?.name ?? state.id : undefined }}</span>
           <span>相关的文章</span>
         </template>
       </div>
@@ -26,7 +26,7 @@
     <ArticleLoading v-show="state.isLoading" />
     <Empty v-show="!state.pagination.total && !state.isLoading"  />
     <ul class="kur_pagination" v-show="state.pagination.total">
-      <li class="prev" :class="{disabled: state.pagination.currentPage <= 1}">
+      <li class="prev" :class="{disabled: state.pagination.currentPage <= 1}" @click="onClickPrevBtn">
         <div>
           <i class="fa-solid fa-arrow-left-to-line"></i>
         </div>
@@ -39,7 +39,7 @@
       >
         <div>{{ index }}</div>
       </li>
-      <li class="next" :class="{disabled: state.pagination.currentPage >= pageNums}">
+      <li class="next" :class="{disabled: state.pagination.currentPage >= pageNums}" @click="onClickNextBtn">
         <div>
           <i class="fa-solid fa-arrow-right-to-line"></i>
         </div>
@@ -56,6 +56,7 @@ import { computed, nextTick, onMounted, onUnmounted, reactive, watch } from 'vue
 import { useRoute } from 'vue-router';
 import { getArticleList } from '@/api/node';
 import { BounceInUp } from '@/util/animation';
+import Message from '@/plugins/message/message';
 
 import ArticleItem from '@/components/Article/ArticleItem.vue';
 import ArticleLoading from '@/components/Article/ArticleLoading.vue';
@@ -68,7 +69,7 @@ const state = reactive({
   keyword: undefined as string | undefined,
   articles: [] as IArticle[],
   pagination: {
-    pageLimit: 1,
+    pageLimit: 2,
     currentPage: 1,
     total: 0,
   } as IPagination,
@@ -80,7 +81,8 @@ const menuStore = useMenuStore();
 const { tagsIdMap, categoriesIdMap } = storeToRefs(menuStore);
 
 const pageNums = computed(() => {
-  return (state.pagination.total / state.pagination.pageLimit) + (state.pagination.total % state.pagination.pageLimit);
+  if (state.pagination.total <= state.pagination.pageLimit) return 1;
+  return Math.floor(state.pagination.total / state.pagination.pageLimit) + (state.pagination.total % state.pagination.pageLimit > 0 ? 1 : 0);
 });
 
 const fetchArticles = async () => {
@@ -108,10 +110,11 @@ const fetchArticles = async () => {
   try {
     state.isLoading = true;
     const { data, meta, links } = await getArticleList(reqData);
-    state.articles = state.articles.concat(data ?? []);
+    state.articles = data;
     state.pagination.total = meta?.count;
     state.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
-  } catch (error) {
+  } catch (error: any) {
+    Message.error('加载文章失败: ' + error.message || error.toString());
     console.error('[getArticleLists]', error);
   } finally {
     state.isLoading = false;
@@ -124,16 +127,29 @@ const onClickPageBtn = (index: number) => {
   fetchArticles();
 }
 
+const onClickPrevBtn = () => {
+  state.pagination.currentPage = 1;
+  fetchArticles();
+}
+
+const onClickNextBtn = () => {
+  state.pagination.currentPage = pageNums.value;
+  fetchArticles();
+}
+
 watch(() => state.articles, () => {
   nextTick(() => BounceInUp.onScroll());
 });
 
+watch([() => route.query.type, () => route.query.id, () => route.query.keyword], ([type, id, keyword]) => {
+  state.type = type?.toString();
+  state.id = Number(id);
+  state.keyword = keyword?.toString();
+  fetchArticles();
+}, {immediate: true});
+
 onMounted(() => {
   BounceInUp.init();
-  state.type = route.query.type?.toString();
-  state.id = Number(route.query.id);
-  state.keyword = route.query.keyword?.toString();
-  fetchArticles();
 });
 
 onUnmounted(() => {

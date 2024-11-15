@@ -29,6 +29,7 @@ import { BounceInUp } from '@/util/animation';
 import { nextTick, onMounted, onUnmounted, reactive, watch } from 'vue';
 import { getArticleList } from '@/api/node';
 import { ArticleParams, IArticle, IPagination } from '@/types';
+import Message from '@/plugins/message/message';
 
 import ArticleItem from '@/components/Article/ArticleItem.vue';
 import ArticleLoading from '@/components/Article/ArticleLoading.vue';
@@ -77,7 +78,8 @@ const getArticleLists = async () => {
     state.articles = state.articles.concat(data ?? []);
     state.pagination.total = meta?.count;
     state.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
-  } catch (error) {
+  } catch (error: any) {
+    Message.error('加载文章失败: ' + error.message || error.toString());
     console.error('[getArticleLists]', error);
   } finally {
     state.isLoading = false;

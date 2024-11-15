@@ -1,6 +1,5 @@
 <template>
-  <!-- @before-leave="onClose"-->
-  <transition name="message-fade"  @after-leave="$emit('destroy')">
+  <transition name="message-fade" @before-leave="onClose"  @after-leave="$emit('destroy')">
     <div
       v-show="visible"
       :style="customStyle"
@@ -163,21 +162,6 @@ onBeforeUnmount(() => {
 </script>
 
 <style lang="scss" scoped>
-  [class*=" icon-"],
-  [class^="icon-"] {
-    font-family: element-icons !important;
-    speak: none;
-    font-style: normal;
-    font-weight: 400;
-    font-variant: normal;
-    text-transform: none;
-    line-height: 1;
-    vertical-align: baseline;
-    display: inline-block;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-  }
-
   .message {
     min-width: 380px;
     box-sizing: border-box;

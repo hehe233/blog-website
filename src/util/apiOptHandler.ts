@@ -1,9 +1,7 @@
 import { BaseParams } from "@/types";
 
 export function filterGroupString(name: string, path: string, operator: string, value: string | number) {
-  return `filter[${name}-filter][condition][path]=${path}&
-          filter[${name}-filter][condition][operator]=${operator}&
-          filter[${name}-filter][condition][value]=${value}&`
+  return `filter[${name}-filter][condition][path]=${path}&filter[${name}-filter][condition][operator]=${operator}&filter[${name}-filter][condition][value]=${value}&`
 }
 
 export function handlePageOption(query: string, options: BaseParams) {
@@ -17,22 +15,18 @@ export function handleSortsOption(query: string, sorts: string[] | undefined) {
 }
 
 export function handleFieldsOption(query: string, type: string, fields: string[] | undefined) {
-  if (!fields ||!fields.length) return query;
+  if (!fields || !fields.length) return query;
   return `${query}fields[${type}]=${fields.join(',')}&`;
 }
 
 export function handleFilterOption(query: string, type: string, operator: string, filters: string[] | number[] | undefined) {
-  if (!filters ||!filters.length) return query;
-  return `${query}filter[${type}-group][group][conjunction]=OR&
-          ${filters.map((filter,index) => `
-          ${filterGroupString(`${type}-${index}`, `field_${type}.meta.drupal_internal__target_id`, operator, filter)}
-          &filter[${type}-${index}][condition][memberOf]=${type}-group
-          `)}`;
+  if (!filters || !filters.length) return query;
+  return `${query}filter[${type}-group][group][conjunction]=OR&${filters.map((filter,index) => `${filterGroupString(`${type}-${index}`, `field_${type}.meta.drupal_internal__target_id`, operator, filter)}filter[${type}-${index}-filter][condition][memberOf]=${type}-group`)}&`;
 }
 
-export function handleLikeOption(query: string, type: string, like: string | undefined) {
-  if (!like) return query;
-  return `${query}${filterGroupString(type, type, 'STARTS_WITH', like)}`;
+export function handleLikeOption(query: string, path: string, like: string | undefined, isFirst: boolean = false) {
+  if (!like || !path ) return query;
+  return `${query}${isFirst ? 'filter[like-group][group][conjunction]=OR&' : ''}${filterGroupString(path, path, 'STARTS_WITH', like)}filter[${path}-filter][condition][memberOf]=like-group&`;
 }
 
 export function handleStickyOption(query: string, sticky: boolean | undefined) {

@@ -1,32 +1,45 @@
 <template>
   <div class="kur_index__search">
     <div class="kur_archive__title">
-      <div class="kur_archive__title-title">
-        <i class="kur_archive__title-icon fa-regular fa-magnifying-glass"></i>
-        搜索到<span class="muted">10</span>条与
-        <span class="muted">233</span>
-        <span>相关的文章：</span>
+      <div class="kur_archive__title-title" >
+        <template v-if="state.type === 'search'">
+          <i class="kur_archive__title-icon fa-regular fa-magnifying-glass"></i>
+          搜索到<span class="muted">{{ state.pagination.total }}</span>条与
+          <span class="muted">{{ state.keyword }}</span>
+          <span>相关的文章：</span>
+        </template>
+        <template v-else-if="state.type === 'tag'">
+          <i class="kur_archive__title-icon fa-regular fa-feather"></i>以下是
+          <span class="muted ellipsis">{{ state.id ? tagsIdMap?.[state.id] ?? state.id  : undefined }}</span>
+          <span>相关的文章</span>
+        </template>
+        <template v-else-if="state.type === 'category'">
+          <i class="kur_archive__title-icon fa-regular fa-feather"></i>以下是
+          <span class="muted ellipsis">{{ state.id ? categoriesIdMap?.[state.id] ?? state.id : undefined }}</span>
+          <span>相关的文章</span>
+        </template>
       </div>
     </div>
     <ul class="kur_archive__list kur_list">
       <ArticleItem :urlPrefix="state.urlPrefix" v-for="article in state.articles" :key="article.id" :article="article"/>
     </ul>
-    <ul class="kur_pagination">
-      <li class="prev disabled">
+    <ArticleLoading v-show="state.isLoading" />
+    <ArticleEmpty v-show="!state.pagination.total && !state.isLoading"  />
+    <ul class="kur_pagination" v-show="state.pagination.total">
+      <li class="prev" :class="{disabled: state.pagination.currentPage <= 1}">
         <div>
           <i class="fa-solid fa-arrow-left-to-line"></i>
         </div>
       </li>
-      <li class="actived">
-        <div>1</div>
+      <li
+        v-for="index in pageNums"
+        :key="index"
+        :class="{actived: state.pagination.currentPage === index}"
+        @click="onClickPageBtn(index)"
+      >
+        <div>{{ index }}</div>
       </li>
-      <li>
-        <div>1</div>
-      </li>
-      <li>
-        <div>1</div>
-      </li>
-      <li class="next">
+      <li class="next" :class="{disabled: state.pagination.currentPage >= pageNums}">
         <div>
           <i class="fa-solid fa-arrow-right-to-line"></i>
         </div>
@@ -36,15 +49,22 @@
 </template>
 
 <script lang="ts" setup>
-import ArticleItem from '@/components/Article/ArticleItem.vue';
-import { IArticle, IPagination } from '@/types';
+import { useMenuStore } from '@/stores';
+import { ArticleParams, IArticle, IPagination } from '@/types';
+import { storeToRefs } from 'pinia';
 import { computed, onMounted, reactive } from 'vue';
 import { useRoute } from 'vue-router';
+import { getArticleList } from '@/api/node';
+
+import ArticleItem from '@/components/Article/ArticleItem.vue';
+import ArticleLoading from '@/components/Article/ArticleLoading.vue';
+import ArticleEmpty from '@/components/Article/ArticleEmpty.vue';
 
 const route = useRoute();
 const state = reactive({
   type: undefined as string | undefined,
   id: undefined as number | undefined,
+  keyword: undefined as string | undefined,
   articles: [] as IArticle[],
   pagination: {
     pageLimit: 1,
@@ -55,14 +75,60 @@ const state = reactive({
   isLoading: false as boolean,
 });
 
-const titleIcon = computed(() => {})
+const menuStore = useMenuStore();
+const { tagsIdMap, categoriesIdMap } = storeToRefs(menuStore);
+
+const pageNums = computed(() => {
+  return (state.pagination.total / state.pagination.pageLimit) + (state.pagination.total % state.pagination.pageLimit);
+});
+
+const fetchArticles = async () => {
+  const reqData: ArticleParams = {
+    currentPage: state.pagination.currentPage,
+    pageLimit: state.pagination.pageLimit,
+    filter: {},
+  }
+  switch (state.type) {
+    case 'search':
+      reqData.like = {
+        title: state.keyword,
+        body: state.keyword
+      }
+      break;
+    case 'tag':
+      if (!state.id) return;
+      reqData.filter!.tags = [state.id.toString()];
+      break;
+    case 'category':
+      if (!state.id) return;
+      reqData.filter!.categories = [state.id.toString()];
+      break;
+  }
+  try {
+    state.isLoading = true;
+    const { data, meta, links } = await getArticleList(reqData);
+    state.articles = state.articles.concat(data ?? []);
+    state.pagination.total = meta?.count;
+    state.urlPrefix = links?.self?.href?.split('/jsonapi')[0] || '';
+  } catch (error) {
+    console.error('[getArticleLists]', error);
+  } finally {
+    state.isLoading = false;
+  }
+}
+
+const onClickPageBtn = (index: number) => {
+  if (state.pagination.currentPage === index) return;
+  state.pagination.currentPage = index;
+  fetchArticles();
+}
 
 onMounted(() => {
   state.type = route.query.type?.toString();
   state.id = Number(route.query.id);
+  state.keyword = route.query.keyword?.toString();
+  fetchArticles();
 });
-
-
 </script>
 
 <style lang="scss">
@@ -95,6 +161,9 @@ onMounted(() => {
       padding-top: px2rem(36px);
       padding-bottom: px2rem(30px);
       @include display-flex-center;
+      -webkit-box-pack: center;
+      -ms-flex-pack: center;
+      justify-content: center;
       li {
         -webkit-user-select: none;
         -moz-user-select: none;

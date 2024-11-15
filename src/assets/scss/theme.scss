@@ -151,6 +151,11 @@ body:after {
   background: var(--scroll-bar);
 }
 
+.kur_header__slideout-wrap::-webkit-scrollbar,
+.kur_header__toc-wrap::-webkit-scrollbar {
+  display: none;
+}
+
 html,
 html[data-mode="dark"] {
   background: var(--background);

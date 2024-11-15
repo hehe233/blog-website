@@ -7,9 +7,9 @@
     </div>
     <div class="kur_aside__item-contain">
       <div class="tagcloud-wrapper">
-        <div class="tagcloud-controls" :style="`--num-elements: ${props.tags.length}`">
+        <div class="tagcloud-controls" :style="`--num-elements: ${shortTags.length}`">
           <div
-            v-for="(tag, index) in props.tags"
+            v-for="(tag, index) in shortTags"
             :key="tag.id"
             class="tagcloud-control-button"
             :style="`--index: ${index + 1}`"
@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { PropType } from 'vue';
+import { computed, PropType } from 'vue';
 
 const props = defineProps({
   tags: {
@@ -45,6 +45,10 @@ const props = defineProps({
     default: () => [],
   }
 });
+
+const shortTags = computed(() => {
+  return props.tags.slice(0, 20);
+})
 </script>
 
 <style lang="scss" scoped>

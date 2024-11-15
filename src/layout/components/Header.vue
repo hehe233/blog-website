@@ -8,7 +8,7 @@
           @click="clickPEMenuIcon"></i>
         <router-link to="/" class="kur_header__above-logo">
           <img
-            src="@/assets/images/logo.png"
+            src="/images/logo.png"
             alt="LOGO"
             loading="lazy"
             style="border-radius: 0px"

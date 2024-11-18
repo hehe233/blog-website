@@ -44,8 +44,14 @@ export default {
       meta: { title: '搜索结果', hidden: true }
     },
     {
+      path: 'articles',
+      name: 'articles',
+      meta: { title: '文章内容', hidden: true }
+    },
+    {
       path: 'archives',
       component: () => import('@/views/archives/archives.vue'),
+      redirect: '/archives/categories',
       name: 'archives',
       meta: { title: '归档', icon: 'fa-regular fa-archive' },
       children: [
